@@ -9,5 +9,4 @@ Essentials courses:
 * Arrays and Matrices
 * Strings and RegExp
 * Workshop
-* Workshop
 
