@@ -8,5 +8,5 @@ Essentials courses:
 * [Objects and DOM](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Essentials/Objects%26DOM)
 * [Arrays and Matrices](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Essentials/ArraysAndMatrices)
 * [Strings and RegExp](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Essentials/StringsAndRegEx)
-* Workshop
+* [Workshop](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Essentials/Workshop)
 
