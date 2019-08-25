@@ -16,7 +16,7 @@ Essentials courses:
 
 Advanced courses:
 
-* Advanced Functions
+* [Advanced Functions](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/AdvancedFunctions)
 * DOM Manipulations
 * Unit Testing and Modules
 * JS Classes
