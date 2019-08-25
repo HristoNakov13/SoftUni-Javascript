@@ -12,7 +12,9 @@ function processPatient(name, age, weight, height) {
         "BMI": BMI,
         "status": status,
     };
-    makeRecommendation(status);
+    const recommendationFunc = makeRecommendation();
+    recommendationFunc(status, patient);
+    
     return patient;
 
     function calculateBMI(weight, height) {
@@ -21,12 +23,19 @@ function processPatient(name, age, weight, height) {
         return Math.round(BMI);
     }
 
-    function makeRecommendation(status) {
+    function makeRecommendation() {
+        const NOT_REQUIRED = "no admission";
+        const ADMIT = "admit";
         const admissionRequirements = {
-            "obese": "admit"
+            "underweight": NOT_REQUIRED,
+            "normal": NOT_REQUIRED,
+            "overweight": NOT_REQUIRED,
+            "obese": ADMIT,
         };
-        if (admissionRequirements[status] !== undefined) {
-            patient["recommendation"] = "admission required";
+        return function (status, patient) {
+            if (admissionRequirements[status] === ADMIT) {
+               return  patient["recommendation"] = "admission required";
+            }
         }
     }
 
@@ -44,4 +53,4 @@ function processPatient(name, age, weight, height) {
         return status;
     }
 }
-// console.log(processPatient("Peter", 9, 57, 137));
+console.log(processPatient("Peter", 9, 57, 137));
