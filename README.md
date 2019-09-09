@@ -19,7 +19,7 @@ Advanced courses:
 * [Advanced Functions](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/AdvancedFunctions)
 * [DOM Manipulations](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/DOMmanipulations)
 * [Unit Testing and Modules](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/UnitTesting)
-* JS Classes
+* [JS Classes](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/Classes)
 * Object Composition
 * Prototypes and Inheritance
 * Design Patterns and Best Practices
