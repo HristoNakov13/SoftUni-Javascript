@@ -20,7 +20,7 @@ Advanced courses:
 * [DOM Manipulations](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/DOMmanipulations)
 * [Unit Testing and Modules](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/UnitTesting)
 * [JS Classes](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/Classes)
-* Object Composition
+* [Object Composition](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/ObjectComposition)
 * Prototypes and Inheritance
 * Design Patterns and Best Practices
 * Workshop: Landing Page
