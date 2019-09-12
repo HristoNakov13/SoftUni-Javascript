@@ -22,6 +22,18 @@ Advanced courses:
 * [JS Classes](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/Classes)
 * [Object Composition](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/ObjectComposition)
 
+Applications courses:
+* REST Services and AJAX
+* Asynchronous Programming
+* Remote Databases
+* Routing and Architecture
+* Templating
+* Webpack
+* Workshop: Single Page Application
+* JS for Front-End
+
+
+
 
 
 
