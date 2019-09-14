@@ -23,7 +23,7 @@ Advanced courses:
 * [Object Composition](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Advanced/ObjectComposition)
 
 Applications courses:
-* REST Services and AJAX
+* [REST Services and AJAX](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/REST%26AJAX)
 * Asynchronous Programming
 * Remote Databases
 * Routing and Architecture
