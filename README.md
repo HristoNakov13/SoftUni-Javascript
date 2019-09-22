@@ -25,7 +25,7 @@ Advanced courses:
 Applications courses:
 * [REST Services and AJAX](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/REST%26AJAX)
 * [Asynchronous Programming](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/AsynchronousProgramming)
-* Remote Databases
+* [Remote Databases](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/RemoteDatabases)
 * Routing and Architecture
 * Templating
 * Webpack
