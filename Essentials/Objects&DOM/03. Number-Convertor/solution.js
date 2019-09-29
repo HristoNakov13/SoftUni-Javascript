@@ -1,42 +1,52 @@
 function solve() {
-    let binaryOptionElement = document.createElement("option");
-    binaryOptionElement.value = "binary";
-    binaryOptionElement.textContent = "Binary";
+    let ELEMENTS = {
+        numberInput: document.getElementById("input"),
+        selectMenuConvertTo: document.getElementById("selectMenuTo"),
+        convertBtn: document.getElementsByTagName("button")[0],
+        result: document.getElementById("result"),
+    };
 
-    let hexadecimalOptionElement = document.createElement("option");
-    hexadecimalOptionElement.value = "hexadecimal";
-    hexadecimalOptionElement.textContent = "Hexadecimal";
+    let binaryOption = createConvertMenuOption("Binary");
+    let hexadecimalOption = createConvertMenuOption("Hexadecimal");
 
-    let selectMenuToElement = document.getElementById("selectMenuTo");
-    selectMenuToElement.appendChild(binaryOptionElement);
-    selectMenuToElement.appendChild(hexadecimalOptionElement);
+    ELEMENTS.selectMenuConvertTo.appendChild(hexadecimalOption);
+    ELEMENTS.selectMenuConvertTo.appendChild(binaryOption);
 
-
-    let convertButton = document.getElementsByTagName("button")[0];
-    convertButton.addEventListener("click", function () {
-        let inputElement = document.getElementById("input");
-        let convertToOptionElement = document.getElementById("selectMenuTo");
-
-        let number = Number(inputElement.value);
-        let convertTo = convertToOptionElement.value;
-
-        if (number && convertTo !== "") {
-            let result;
-            if (convertTo === "binary") {
-                result = convertNumberToBinary(number);
-            } else if (convertTo === "hexadecimal") {
-                result = convertNumberToHexadecimal(number);
-            }
-            let resultElement = document.getElementById("result");
-            resultElement.value = result;
-        }
-    });
-
-    function convertNumberToBinary(number) {
-        return (number >>> 0).toString(2);
+    function createConvertMenuOption(optionValue) {
+        let option = document.createElement("option");
+        option.value = optionValue.toLowerCase();
+        option.textContent = optionValue;
+        return option;
     }
 
-    function convertNumberToHexadecimal(number) {
+    let convertToBinary = function(number) {
+        return number.toString(2);
+    };
+
+    let convertToHexadecimal = function(number) {
         return number.toString(16).toUpperCase();
-    }
+    };
+
+    let convertTo = {
+        binary: convertToBinary,
+        hexadecimal: convertToHexadecimal
+    };
+
+    let convertBtnClickFunc = function () {
+        let input = +ELEMENTS.numberInput.value;
+        let convertToOption = ELEMENTS.selectMenuConvertTo.value;
+        let convertToFunc = convertTo[convertToOption];
+
+        if (Number.isNaN(input)) {
+            ELEMENTS.result = "Invalid number";
+            return;
+        } else if (convertToFunc === undefined) {
+            ELEMENTS.result = "Please select convert to option";
+            return;
+        }
+
+        ELEMENTS.result.value = convertToFunc(input);
+    };
+
+    ELEMENTS.convertBtn.addEventListener("click", convertBtnClickFunc);
 }
