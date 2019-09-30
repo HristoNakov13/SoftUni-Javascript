@@ -8,6 +8,14 @@ function solve() {
         fightHistory: document.getElementById("history"),
     };
 
+    for (const card of ELEMENTS.firstPlayerDeck) {
+        card.addEventListener("click", firstPlayerCardClickEvent);
+    }
+
+    for (const card of ELEMENTS.secondPlayerDeck) {
+        card.addEventListener("click", secondPlayerCardClickEvent);
+    }
+
     let firstPlayerLastSelectedCard;
     let secondPlayerLastSelectedCard;
     
@@ -16,8 +24,9 @@ function solve() {
             , ELEMENTS.secondPlayerResult.textContent)) {
             clearResult();
         }
-        firstPlayerLastSelectedCard = checkForSelectedCards(firstPlayerLastSelectedCard, this);
-        commonClickEvent(this, ELEMENTS.firstPlayerResult);
+        checkForSelectedCards(firstPlayerLastSelectedCard);
+        firstPlayerLastSelectedCard = this;
+        commonClickEvent(firstPlayerLastSelectedCard, ELEMENTS.firstPlayerResult);
     }
 
     function secondPlayerCardClickEvent() {
@@ -25,15 +34,15 @@ function solve() {
             , ELEMENTS.secondPlayerResult.textContent)) {
             clearResult();
         }
-        secondPlayerLastSelectedCard = checkForSelectedCards(secondPlayerLastSelectedCard, this);
-        commonClickEvent(this, ELEMENTS.secondPlayerResult);
+        checkForSelectedCards(secondPlayerLastSelectedCard);
+        secondPlayerLastSelectedCard = this;
+        commonClickEvent(secondPlayerLastSelectedCard, ELEMENTS.secondPlayerResult);
     }
 
-    function checkForSelectedCards(playerLastSelectedCard, selectedCard) {
+    function checkForSelectedCards(playerLastSelectedCard) {
         if (playerLastSelectedCard !== undefined) {
             playerLastSelectedCard.setAttribute("src", "images/card.jpg");
         }
-        return selectedCard;
     }
 
     function commonClickEvent(card, playerResult) {
@@ -78,13 +87,5 @@ function solve() {
     function addFightToHistory(firstPlayerCardValue, secondPlayerCardValue) {
         ELEMENTS.fightHistory.textContent += `[${firstPlayerCardValue} vs ${secondPlayerCardValue}] `;
 
-    }
-
-    for (const card of ELEMENTS.firstPlayerDeck) {
-        card.addEventListener("click", firstPlayerCardClickEvent);
-    }
-
-    for (const card of ELEMENTS.secondPlayerDeck) {
-        card.addEventListener("click", secondPlayerCardClickEvent);
     }
 }
