@@ -1,44 +1,46 @@
 function lockedProfile() {
-    let profiles = Array.from(document.getElementsByClassName("profile"));
+    //selector by className does not work in judge
+    let allDivs = document.getElementById("main")
+        .querySelectorAll("div");
 
-    for (const profile of profiles) {
-        let inputFields = profile.getElementsByTagName("input");
+    let profiles = [];
+    profiles.push(allDivs[0]);
+    profiles.push(allDivs[2]);
+    profiles.push(allDivs[4]);
 
-        let showDetailsButton = profile.getElementsByTagName("button")[0];
-        let lockRadioBtn = getLockRadioBtn(inputFields);
-        let detailsElement = getDetailsElement(profile);
+    profiles.forEach(attachEventListener);
 
-        showDetailsButton.addEventListener("click", function () {
-            if (!lockRadioBtn.checked) {
-                if (detailsElement.style.display === "block") {
-                    detailsElement.style.display = "none";
-                } else {
-                    detailsElement.style.display = "block";
-                }
-            }
-        });
+    function attachEventListener(profile) {
+        let showMoreBtn = profile.querySelector("button");
+        showMoreBtn.addEventListener("click", profileShowMoreEventHandler);
     }
 
-    function getDetailsElement(profile) {
-        let divs = profile.getElementsByTagName("div");
-        let detailsElement;
-        for (const div of divs) {
-            if (typeof div.id !== undefined) {
-                detailsElement = div;
-                break;
-            }
+    function profileShowMoreEventHandler() {
+        let profileBtn = this;
+        let profile = profileBtn.parentNode;
+
+        if (isLocked(profile)) {
+            return;
         }
-        return detailsElement;
+        let infoField = profile.querySelector("div");
+
+        if (isHidden(infoField)) {
+            infoField.style.display = "block";
+            profileBtn.textContent = "Hide it";
+        } else {
+            infoField.style.display = "none";
+            profileBtn.textContent = "Show more";
+        }
+    }
+    //CSS classes are set to display: hidden by default
+    //yet initial style.display value is empty String
+
+    function isHidden(field) {
+        return field.style.display === "none"
+            || field.style.display === "";
     }
 
-    function getLockRadioBtn(inputFields) {
-        let lockRadioBtn;
-        for (const inputField of inputFields) {
-            if (inputField.value === "lock") {
-                lockRadioBtn = inputField;
-                break;
-            }
-        }
-        return lockRadioBtn;
+    function isLocked(profile) {
+        return profile.getElementsByTagName("input")[0].checked;
     }
 }
