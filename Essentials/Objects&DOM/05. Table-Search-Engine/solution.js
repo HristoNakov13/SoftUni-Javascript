@@ -11,26 +11,24 @@ function solve() {
        let searchTerm = ELEMENTS.searchInput.value;
 
        for (const row of ELEMENTS.tableContent) {
-            searchRow(row, searchTerm);
+           if (containsSearchTerm(row, searchTerm)) {
+               row.setAttribute("class", "select");
+           }
        }
        ELEMENTS.searchInput.value = "";
    };
 
    ELEMENTS.searchBtn.addEventListener("click", searchBtnClickEvent);
 
-   function searchRow(row, searchTerm) {
+   function containsSearchTerm(row, searchTerm) {
        let cells = row.getElementsByTagName("td");
 
        for (const cell of cells) {
            if (cell.textContent.includes(searchTerm)) {
-               markFoundRow(row);
-               break;
+               return true;
            }
        }
-   }
-
-   function markFoundRow(row) {
-       row.setAttribute("class", "select");
+       return false;
    }
 
    function clearPreviousSearches(tableContent) {

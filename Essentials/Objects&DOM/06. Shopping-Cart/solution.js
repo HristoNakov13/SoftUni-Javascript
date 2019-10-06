@@ -1,36 +1,24 @@
 function solve() {
-   let products = document.getElementsByClassName("shopping-cart")[0]
-       .getElementsByClassName("product");
-
    let cart = [];
    let totalPrice = 0;
-   let productsAddBtn = [];
+   let allProductsAddBtn = document.querySelectorAll(".add-product");
 
-   for (const product of products) {
-       let productName = product.getElementsByClassName("product-details")[0]
-           .getElementsByClassName("product-title")[0]
-           .textContent;
-       let productPrice = +product.getElementsByClassName("product-line-price")[0]
-           .textContent;
+   Array.from(allProductsAddBtn)
+       .map(addBtn => addBtn.addEventListener("click", addProductToCartHandler));
 
-       let addButton = product.getElementsByClassName("product-add")[0]
-           .getElementsByTagName("button")[0];
+   function addProductToCartHandler(event) {
+       let product = event.target.parentNode.parentNode;
+       let productName = product.querySelector(".product-title").textContent;
+       let productPrice = Number(product.querySelector(".product-line-price").textContent);
 
-       productsAddBtn.push(addButton);
-       addEventListenerToProductButton(productName, productPrice, addButton);
-   }
-   
-   function addEventListenerToProductButton(name, price, addButton) {
-       addButton.addEventListener("click", function () {
-           addProductToCart(name, price);
-           addProductToCheckoutDetails(name, price);
-       })
+       addProductToCart(productName, productPrice);
+       addProductToCheckoutDetails(productName, productPrice);
    }
 
-   let checkOutDetails = document.getElementsByTagName("textarea")[0];
+   let checkOutDetails = document.querySelector("textarea");
    
    function addProductToCheckoutDetails(name, price) {
-       let displayDetails = `Added ${name} for ${price} to the cart.\n`;
+       let displayDetails = `Added ${name} for ${price.toFixed(2)} to the cart.\n`;
        checkOutDetails.textContent += displayDetails;
    }
 
@@ -41,15 +29,17 @@ function solve() {
        totalPrice += price;
    }
 
-   let checkoutBtn = document.getElementsByClassName("checkout")[0];
+    let checkoutBtn = document.querySelector(".checkout");
 
-   let checkout = function () {
-       for (const button of productsAddBtn) {
-           button.disabled = true;
-       }
+   let checkoutHandler = function () {
+       disableAddButtons(allProductsAddBtn);
        checkoutBtn.disabled = true;
        checkOutDetails.textContent += `You bought ${cart.join(", ")} for ${totalPrice.toFixed(2)}.`
    };
 
-   checkoutBtn.addEventListener("click", checkout);
+   function disableAddButtons(addProductButtons) {
+       Array.from(addProductButtons).forEach(button => button.disabled = true);
+   }
+
+   checkoutBtn.addEventListener("click", checkoutHandler);
 }

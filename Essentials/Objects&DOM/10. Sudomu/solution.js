@@ -91,8 +91,10 @@ function solve() {
         return rowOrCol.indexOf(value) === -1;
     }
 
+    const SUDOMU_DIMENSIONS = 3;
+
     function isValidInputValue(value) {
-        return !Number.isNaN(value) && value >= 1 && value <= 3;
+        return !Number.isNaN(value) && value >= 1 && value <= SUDOMU_DIMENSIONS;
     }
 }
 
