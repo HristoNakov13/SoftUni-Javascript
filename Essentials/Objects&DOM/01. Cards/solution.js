@@ -1,6 +1,5 @@
 function solve() {
-
-    let ELEMENTS = {
+    const ELEMENTS = {
         firstPlayerDeck: document.getElementById("player1Div").getElementsByTagName("img"),
         firstPlayerResult: document.getElementById("result").getElementsByTagName("span")[0],
         secondPlayerDeck: document.getElementById("player2Div").getElementsByTagName("img"),
@@ -8,48 +7,63 @@ function solve() {
         fightHistory: document.getElementById("history"),
     };
 
-    for (const card of ELEMENTS.firstPlayerDeck) {
-        card.addEventListener("click", firstPlayerCardClickEvent);
-    }
-
-    for (const card of ELEMENTS.secondPlayerDeck) {
-        card.addEventListener("click", secondPlayerCardClickEvent);
-    }
+    Array.from(ELEMENTS.firstPlayerDeck).forEach(card => card.addEventListener("click", cardClickEventHandler));
+    Array.from(ELEMENTS.secondPlayerDeck).forEach(card => card.addEventListener("click", cardClickEventHandler));
 
     let firstPlayerLastSelectedCard;
     let secondPlayerLastSelectedCard;
-    
-    function firstPlayerCardClickEvent() {
+
+    function cardClickEventHandler(e) {
         if (fightHappened(ELEMENTS.firstPlayerResult.textContent
             , ELEMENTS.secondPlayerResult.textContent)) {
             clearResult();
         }
-        checkForSelectedCards(firstPlayerLastSelectedCard);
-        firstPlayerLastSelectedCard = this;
-        commonClickEvent(firstPlayerLastSelectedCard, ELEMENTS.firstPlayerResult);
-    }
 
-    function secondPlayerCardClickEvent() {
-        if (fightHappened(ELEMENTS.firstPlayerResult.textContent
-            , ELEMENTS.secondPlayerResult.textContent)) {
-            clearResult();
+        let clickedCard = e.target;
+        let cardDeckID = clickedCard.parentNode.id;
+        let cardValue = clickedCard.getAttribute("name");
+        markCardAsSelected(clickedCard);
+
+        if (cardBelongsToFirstPlayer(cardDeckID)) {
+            if (hasAlreadySelectedCard(firstPlayerLastSelectedCard)) {
+                unmarkLastSelectedCard(firstPlayerLastSelectedCard);
+            }
+            ELEMENTS.firstPlayerResult.textContent = cardValue;
+            firstPlayerLastSelectedCard = clickedCard;
+        } else {
+            if (hasAlreadySelectedCard(secondPlayerLastSelectedCard)) {
+                unmarkLastSelectedCard(secondPlayerLastSelectedCard);
+            }
+            ELEMENTS.secondPlayerResult.textContent = cardValue;
+            secondPlayerLastSelectedCard = clickedCard;
         }
-        checkForSelectedCards(secondPlayerLastSelectedCard);
-        secondPlayerLastSelectedCard = this;
-        commonClickEvent(secondPlayerLastSelectedCard, ELEMENTS.secondPlayerResult);
-    }
 
-    function checkForSelectedCards(playerLastSelectedCard) {
-        if (playerLastSelectedCard !== undefined) {
-            playerLastSelectedCard.setAttribute("src", "images/card.jpg");
+        if (playersCanFight(firstPlayerLastSelectedCard, secondPlayerLastSelectedCard)) {
+            fight(firstPlayerLastSelectedCard, secondPlayerLastSelectedCard);
         }
     }
 
-    function commonClickEvent(card, playerResult) {
-        let cardValue = card.getAttribute("name");
-        playerResult.textContent = cardValue;
+    const FIRST_PLAYER_DECK_ID = "player1Div";
+
+    function cardBelongsToFirstPlayer(cardDeckID) {
+        return cardDeckID === FIRST_PLAYER_DECK_ID;
+    }
+
+    function hasAlreadySelectedCard(playerLastSelectedCard) {
+        return playerLastSelectedCard !== undefined;
+    }
+
+    function unmarkLastSelectedCard(lastSelectedCard) {
+        lastSelectedCard.setAttribute("src", "images/card.jpg");
+    }
+
+    function markCardAsSelected(card) {
         card.setAttribute("src", "images/whiteCard.jpg");
-        fight(firstPlayerLastSelectedCard, secondPlayerLastSelectedCard);
+    }
+
+    function playersCanFight(firstPlayerLastSelectedCard, secondPlayerLastSelectedCard) {
+        return firstPlayerLastSelectedCard !== undefined
+            && secondPlayerLastSelectedCard !== undefined;
     }
 
     function clearResult() {
@@ -65,27 +79,23 @@ function solve() {
     }
 
     function fight(firstPlayerSelectedCard, secondPlayerSelectedCard) {
-        console.log(firstPlayerSelectedCard, secondPlayerSelectedCard);
-        if (firstPlayerSelectedCard !== undefined && secondPlayerSelectedCard !== undefined) {
+        let firstPlayerCardValue = +firstPlayerSelectedCard.getAttribute("name");
+        let secondPlayerCardValue = +secondPlayerSelectedCard.getAttribute("name");
 
-            let firstCardValue = +firstPlayerSelectedCard.getAttribute("name");
-            let secondCardValue = +secondPlayerSelectedCard.getAttribute("name");
-
-            if (firstCardValue > secondCardValue) {
-                firstPlayerSelectedCard.style.border = "2px solid green";
-                secondPlayerSelectedCard.style.border = "2px solid red";
-            } else {
-                firstPlayerSelectedCard.style.border = "2px solid red";
-                secondPlayerSelectedCard.style.border = "2px solid green";
-            }
-            firstPlayerSelectedCard.removeEventListener("click", firstPlayerCardClickEvent);
-            secondPlayerSelectedCard.removeEventListener("click", secondPlayerCardClickEvent);
-            addFightToHistory(firstCardValue, secondCardValue);
+        //wat do when card values are equal?
+        if (firstPlayerCardValue > secondPlayerCardValue) {
+            firstPlayerSelectedCard.style.border = "2px solid green";
+            secondPlayerSelectedCard.style.border = "2px solid red";
+        } else {
+            firstPlayerSelectedCard.style.border = "2px solid red";
+            secondPlayerSelectedCard.style.border = "2px solid green";
         }
+        firstPlayerSelectedCard.removeEventListener("click", cardClickEventHandler);
+        secondPlayerSelectedCard.removeEventListener("click", cardClickEventHandler);
+        addFightToHistory(firstPlayerCardValue, secondPlayerCardValue);
     }
 
     function addFightToHistory(firstPlayerCardValue, secondPlayerCardValue) {
         ELEMENTS.fightHistory.textContent += `[${firstPlayerCardValue} vs ${secondPlayerCardValue}] `;
-
     }
 }
