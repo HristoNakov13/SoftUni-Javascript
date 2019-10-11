@@ -8,7 +8,7 @@ class Kitchen {
     }
 
     loadProducts(products) {
-        let currentAction = [];
+        let currentActionsHistory = [];
         for (const productData of products) {
             let split = productData.split(" ");
             let name = split[0];
@@ -21,10 +21,11 @@ class Kitchen {
             } else {
                 action = `There was not enough money to load ${quantity} ${name}`
             }
-            currentAction.push(action);
-            this.addToHistory(action);
+            currentActionsHistory.push(action);
         }
-        return currentAction.join("\r\n");
+
+        this.addToHistory(currentActionsHistory);
+        return currentActionsHistory.join("\r\n");
     }
 
     canAffordProduct(price) {
@@ -42,17 +43,12 @@ class Kitchen {
             this.productsInStock[name] += quantity;
         }
         this.budget -= price;
+
         return `Successfully loaded ${quantity} ${name}`;
     }
 
     addToHistory(action) {
-        this.actionsHistory.push(action);
-    }
-
-    reportActionHistory() {
-        let report = this.actionsHistory.join("\r\n");
-        this.actionsHistory = [];
-        return report;
+        this.actionsHistory.concat(action);
     }
 
     addToMenu(meal, productsNeeded, price) {
@@ -64,7 +60,6 @@ class Kitchen {
             products: productsNeeded,
             price,
         };
-
         this.menuSize++;
 
         return `Great idea! Now with the ${meal} we have ${this.menuSize} meals in the menu, other ideas?`;
@@ -127,7 +122,3 @@ class Kitchen {
         return canPrepare;
     }
 }
-// let kitchen = new Kitchen(5000);
-// console.log(kitchen.addToMenu('frozenYogurt', ['Yogurt 1', 'Honey 1', 'Banana 1', 'Strawberries 10'], 9.99));
-// console.log(kitchen.addToMenu('Pizza', ['Flour 0.5', 'Oil 0.2', 'Yeast 0.5', 'Salt 0.1', 'Sugar 0.1', 'Tomato sauce 0.5', 'Pepperoni 1', 'Cheese 1.5'], 15.55));
-// console.log(kitchen.showTheMenu());
