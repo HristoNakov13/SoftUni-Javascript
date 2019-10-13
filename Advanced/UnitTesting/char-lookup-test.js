@@ -11,52 +11,62 @@ function lookupChar(string, index) {
     return string.charAt(index);
 }
 
-describe("lookUpChar", function() {
-    const INVALID_TYPE_INDEX = "50";
-    const INVALID_TYPE_STRING = ["Ivan"];
-    const OUT_OUF_BOUNDS_INDEX = 50;
-    const NEGATIVE_INDEX = -5;
+describe("lookupChar", function() {
+    const VALID_STRING = "Hello";
+    const VALID_INDEX = VALID_STRING.length - 1;
+    const EXPECTED_RESULT = "o";
 
-    const VALID_STRING = "Pesho";
-    const VALID_INDEX = 2;
-    const EXPECTED_CHAR = "s";
+    const INVALID_TYPE_PARAMETER = [1, 2];
+    const INVALID_FLOAT_INDEX = 50.5;
+    const NEGATIVE_INDEX = -2;
+    const OUT_OF_BOUNDS_INDEX = VALID_STRING.length + 1;
     const INCORRECT_INDEX_RESULT = "Incorrect index";
-     
-    let actual;
 
-    describe("testing returned result when parameters are different than the required", function() {
-        it("should return undefined when index parameter is not a typeOf - number", function() {
-            actual = lookupChar(VALID_STRING, INVALID_TYPE_INDEX);
-    
+    describe("testing return value when type of input params are different than required", function() {
+        it("should return undefined when first param is not type of 'String'", function() {
+            let actual = lookupChar(INVALID_TYPE_PARAMETER, VALID_INDEX);
+
             expect(actual).to.be.undefined;
         });
-    
-        it("should return undefined when word parameter is not a typeOf - String", function() {
-            actual = lookupChar(INVALID_TYPE_STRING, VALID_INDEX);
-    
+
+        it("should return undefined when second param is not type of 'Number'", function() {
+            let actual = lookupChar(VALID_STRING, INVALID_TYPE_PARAMETER);
+
+            expect(actual).to.be.undefined;
+        });
+
+        it("should return undefined when second param is a float number", function() {
+            let actual = lookupChar(VALID_STRING, INVALID_FLOAT_INDEX);
+
+            expect(actual).to.be.undefined;
+        });
+
+        it("should return undefined when both params are invalid", function() {
+            let actual = lookupChar(INVALID_TYPE_PARAMETER, INVALID_FLOAT_INDEX);
+
             expect(actual).to.be.undefined;
         });
     });
 
-    describe("testing with incorrect index", function() {
-        it("should return incorrect index message when index parameter is greater than word's length", function() {
-            actual = lookupChar(VALID_STRING, OUT_OUF_BOUNDS_INDEX);
-    
-            expect(actual).to.equal(INCORRECT_INDEX_RESULT);
+    describe("testing return value with invalid index", function() {
+        it("should return correct message when given index is negative number", function() {
+            let actual = lookupChar(VALID_STRING, NEGATIVE_INDEX);
+
+            expect(actual).to.be.equal(INCORRECT_INDEX_RESULT);
         });
-    
-        it("should return incorrect index message when index parameter is a negative number", function() {
-            actual = lookupChar(VALID_STRING, NEGATIVE_INDEX);
-    
-            expect(actual).to.equal(INCORRECT_INDEX_RESULT);
+
+        it("should return correct message when given index is greater than input String's length", function() {
+            let actual = lookupChar(VALID_STRING, OUT_OF_BOUNDS_INDEX);
+
+            expect(actual).to.be.equal(INCORRECT_INDEX_RESULT);
         });
     });
 
-    describe("teting with valid parameters", function() {
-        it("should return correct index", function() {
-            actual = lookupChar(VALID_STRING, VALID_INDEX);
+    describe("testing return value with valid parameters", function() {
+        it("should return correct value when both params are valid", function() {
+            let actual = lookupChar(VALID_STRING, VALID_INDEX);
 
-            expect(actual).to.equal(EXPECTED_CHAR);
+            expect(actual).to.be.equal(EXPECTED_RESULT);
         });
     });
 });

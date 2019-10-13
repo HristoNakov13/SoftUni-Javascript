@@ -11,33 +11,28 @@ function isOddOrEven(string) {
     return "odd";
 }
 
-describe("isEvenOrOdd", function() {
-    const ODD_LENGTH_INPUT = "lol";
-    const EVEN_LENGTH_INPUT = "lolo";
+describe("should return result string 'even' or 'odd' depending on the input's string length", function() {
+    const EVEN_INPUT = "vali";
+    const ODD_INPUT = "valid";
+    const EXPECTED_EVEN_OUTPUT = "even";
+    const EXPECTED_ODD_OUTPUT = "odd";
+    const INVALID_TYPE_INPUT = [1, 2];
 
-    const ODD_LENGTH_RESULT = "odd";
-    const EVEN_LENGTH_RESULT = "even";
+    it("should return undefined when type of input is not a string", function() {
+        let result = isOddOrEven(INVALID_TYPE_INPUT);
 
-    it("should return undefined when input is not String", function() {
-        const NUMBER = Number("54");
-        const ARRAY = ["asd", "lol",]
-
-        const actualNUMBERresult = isOddOrEven(NUMBER);
-        const actualARRAYresult = isOddOrEven(ARRAY);
-
-        expect(actualNUMBERresult).to.be.undefined;
-        expect(actualARRAYresult).to.be.undefined;
+        expect(result).to.be.equal(undefined);
     });
 
-    it("should return String - 'odd' when String input has odd length", function() {
-        const actual = isOddOrEven(ODD_LENGTH_INPUT);
+    it("should return correct value with valid even lengthed input", function() {
+        let actual = isOddOrEven(EVEN_INPUT);
 
-        expect(actual).to.be.equal(ODD_LENGTH_RESULT);
+        expect(actual).to.be.equal(EXPECTED_EVEN_OUTPUT);
     });
 
-    it("should return String - 'even' when String input has even length", function() {
-        const actual = isOddOrEven(EVEN_LENGTH_INPUT);
+    it("should return correct value with valid odd lengthed input", function() {
+        let actual = isOddOrEven(ODD_INPUT);
 
-        expect(actual).to.be.equal(EVEN_LENGTH_RESULT);
+        expect(actual).to.be.equal(EXPECTED_ODD_OUTPUT);
     });
 });
