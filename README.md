@@ -32,6 +32,7 @@ Applications courses:
 * Workshop: Single Page Application
 * JS for Front-End
 
+[Exams](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Exams)
 
 
 
