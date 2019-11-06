@@ -1,5 +1,6 @@
 HTML skeletons are provided by SoftUni and are required not to be changed.
 <br/>
+<br/>
 JS core module:
 <br/>
 Essentials - https://softuni.bg/trainings/2345/js-essentials-may-2019
