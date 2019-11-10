@@ -1,35 +1,53 @@
 function solve() {
-    let busSchedule = `https://judgetests.firebaseio.com/schedule/depot.json`;
-    let currentStop;
-    fetch(busSchedule)
-        .then(info => info.json())
-        .then(data => currentStop = data);
+    const arriveBtn = document.querySelector("#arrive");
+    const departBtn = document.querySelector("#depart");
+    const stopInfo = document.querySelector("#info");
 
-    let statusInfoElement = document.getElementById("info")
-        .getElementsByClassName("info")[0];
-    let arriveBtn = document.getElementById("arrive");
-    let departBtn = document.getElementById("depart");
+    let currentStopID = "depot";
+    let stopName;
+
+    function handleErrors(data) {
+        if (data.name === undefined) {
+            throw new Error();
+        }
+
+        return data;
+    }
+    
+    function busDepart(data) {
+        stopName = data.name;
+        stopInfo.textContent = `Next stop ${stopName}`;
+        currentStopID = data.next;
+
+        arriveBtn.disabled = false;
+
+        return data;
+    }
+
+    function catchErrors(error) {
+        stopInfo.textContent = "Error";
+
+        departBtn.disabled = true;
+        arriveBtn.disabled = true;
+    }
 
     function depart() {
         departBtn.disabled = true;
-        let nextStop = `Next stop ${currentStop.name}`;
-        statusInfoElement.textContent = nextStop;
-        arriveBtn.disabled = false;
+        let fetchURL = `https://judgetests.firebaseio.com/schedule/${currentStopID}.json`;
+
+        fetch(fetchURL)
+            .then(response => response.json())
+            .then(handleErrors)
+            .then(busDepart)
+            .catch(catchErrors);
     }
 
     function arrive() {
-       arriveBtn.disabled = true;
-       let arrivingAtStop = `Arriving at ${currentStop.name}`;
-       statusInfoElement.textContent = arrivingAtStop;
-
-       let nextStop = currentStop.next;
-       let nextStopFetch = `https://judgetests.firebaseio.com/schedule/${nextStop}.json`;
-
-        fetch(nextStopFetch)
-            .then(info => info.json())
-            .then(data => currentStop = data);
+        stopInfo.textContent = `Arriving at ${stopName}`;
+        arriveBtn.disabled = true;
         departBtn.disabled = false;
     }
+
     return {
         depart,
         arrive

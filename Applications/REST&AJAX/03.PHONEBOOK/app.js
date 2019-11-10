@@ -1,71 +1,114 @@
 function attachEvents() {
-    let loadBtn = document.getElementById("btnLoad");
-    let phoneContactsElement = document.getElementById("phonebook");
+    const loadBtn = document.querySelector("#btnLoad");
+    const LOAD_PHONE_BOOK_URL = "https://phonebook-nakov.firebaseio.com/phonebook.json";
+    const phoneBookElement = document.querySelector("#phonebook");
 
-    let loadBtnOnClickFunc = function () {
-        if (phoneContactsElement.getElementsByTagName("li").length > 0) {
-            return;
+    loadBtn.addEventListener("click", loadEventHandler);
+
+    function loadEventHandler() {
+        phoneBookElement.innerHTML = "";
+
+        fetch(LOAD_PHONE_BOOK_URL)
+            .then(response => response.json())
+            .then(handleErrors)
+            .then(displayPhoneBook)
+            .catch(catchErrors);
+    }
+
+    function handleErrors(data) {
+        if (data === null) {
+            throw new Error("No users found.");
         }
-        let url = "https://phonebook-nakov.firebaseio.com/phonebook.json";
-        fetch(url)
-            .then(info => info.json())
-            .then(data => {
-                for (const key in data) {
-                    let name = data[key].person;
-                    let phoneNumber = data[key].phone;
 
-                    let currentPersonAsList = createNewPerson(name, phoneNumber);
-                    addPersonToPhoneContacts(currentPersonAsList);
-                }
-            });
-        loadBtn.style.display = "none";
-    };
-    loadBtn.addEventListener("click", loadBtnOnClickFunc);
+        return data;
+    }
 
-    function addEventListenerToDeleteButton(deleteButton, id) {
-        deleteButton.addEventListener("click", function () {
-            if (phoneContactsElement.getElementsByTagName("li").length === 1) {
-                loadBtn.style.display = "block";
+    function displayPhoneBook(phoneBook) {
+        for (const userID in phoneBook) {
+            if (isValidUser(phoneBook[userID])) {
+                const userElement = createUserElement(phoneBook[userID], userID);
+                phoneBookElement.appendChild(userElement);
             }
-            let contact = document.getElementById(id);
-            phoneContactsElement.removeChild(contact);
-        })
+        }
     }
 
-    function createNewPerson(name, phoneNumber) {
-        let newPerson = document.createElement("li");
-        newPerson.setAttribute("id", phoneNumber);
-        let personInfo = `${name}: ${phoneNumber}`;
-        newPerson.textContent = personInfo;
-        addDeleteButtonToPerson(newPerson);
-        return newPerson;
+    function isValidUser(user) {
+        return user.person !== "" && user.phone !== "";
     }
 
-    function addDeleteButtonToPerson(person) {
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
-        addEventListenerToDeleteButton(deleteButton, person.id);
-        person.appendChild(deleteButton);
+    function createUserElement(user, id) {
+        const userElement = document.createElement("li");
+        userElement.textContent = `${user.person}: ${user.phone} `;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.setAttribute("id", id);
+
+        deleteBtn.addEventListener("click", deleteUserEventHandler);
+
+        userElement.appendChild(deleteBtn);
+
+        return userElement;
     }
 
-    function addPersonToPhoneContacts(person) {
-        phoneContactsElement.appendChild(person);
+    function deleteUserEventHandler(event) {
+        const userID = event.target.id;
+        const userElement = event.target.parentNode;
+        phoneBookElement.removeChild(userElement);
+
+        const deleteUserUrl = `https://phonebook-nakov.firebaseio.com/phonebook/${userID}.json`;
+        const headers = {
+            method: "DELETE"
+        };
+
+        //better to load phone book again in "then" or just leave it as is
+        //either way user is still removed locally from the html
+
+        fetch(deleteUserUrl, headers)
+            .then(() => {})
+            .catch(catchErrors);
     }
 
-    let nameInputElement = document.getElementById("person");
-    let phoneInputElement = document.getElementById("phone");
+    function catchErrors(error) {
+        phoneBookElement.innerHTML = `${error.message}`;
+    }
 
-    let createBtnOnClickFunc = function () {
-        let name = nameInputElement.value;
-        let phoneNumber = phoneInputElement.value;
-        if (name === "" || phoneNumber === "") {
+    const userInput = {
+        "person": document.querySelector("#person"),
+        "phone": document.querySelector("#phone"),
+    };
+    const CREATE_USER_URL = "https://phonebook-nakov.firebaseio.com/phonebook.json";
+
+    function createUserEventHandler() {
+        const phone = userInput.phone.value;
+        const person = userInput.person.value;
+
+        const user = {person, phone};
+
+        if (!isValidUser(user)) {
             return;
         }
-        let newPersonList = createNewPerson(name, phoneNumber);
-        addPersonToPhoneContacts(newPersonList);
-    };
 
-    let createBtn = document.getElementById("btnCreate");
-    createBtn.addEventListener("click", createBtnOnClickFunc);
+        const headers = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        };
+
+        fetch(CREATE_USER_URL, headers)
+            .then(reloadPhoneBook)
+            .catch(catchErrors);
+    }
+
+    function reloadPhoneBook() {
+        userInput.phone.value = "";
+        userInput.person.value = "";
+
+        loadEventHandler();
+    }
+
+    const createBtn = document.querySelector("#btnCreate");
+    createBtn.addEventListener("click", createUserEventHandler);
 }
+
 attachEvents();
