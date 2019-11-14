@@ -1,124 +1,188 @@
+const searchLocElement = document.getElementById("location");
+const LOCATIONS_DB_URL = "https://judgetests.firebaseio.com/locations.json";
+
+const WEATHER_SYMBOLS = {
+    Sunny: "☀",
+    "Partly sunny": "⛅",
+    Rain: "☂",
+    Overcast: "☁",
+    Degrees: "°",
+};
+
+const forecastElements = {
+    currentConditions: document.getElementById("current"),
+    upcoming: document.getElementById("upcoming"),
+};
+
+const forecastParent = document.getElementById("forecast");
+
+const forecastData = {
+    locations: fetchData.bind(undefined, undefined, undefined, LOCATIONS_DB_URL),
+    currentConditions: fetchData.bind(undefined, undefined, undefined),
+    upcoming: fetchData.bind(undefined, undefined, undefined),
+};
+
+async function getWeatherHandler() {
+    forecastParent.style.display = "block";
+    clearForecast();
+
+    let searchedLocation = searchLocElement.value;
+    let supportedLocations = await forecastData.locations();
+
+    let location = supportedLocations.find(location => location.name === searchedLocation);
+
+    if (!isValidLocation(location)) {
+        displayInvalidLocation(searchedLocation);
+        return;
+    }
+
+    let currentConditionsURL = makeCurrentConditionURL(location.code);
+    let currentConditions = await forecastData.currentConditions(currentConditionsURL);
+
+    let upcomingURL = makeUpcomingURL(location.code);
+    let upcoming = await forecastData.upcoming(upcomingURL);
+
+    displayForecast(currentConditions, upcoming);
+}
+
+function displayInvalidLocation(location) {
+    let wrapper = document.createElement("div");
+    let invalidLocationElement = document.createElement("span");
+    invalidLocationElement.textContent = `${location} is not a valid city.`;
+
+    wrapper.appendChild(invalidLocationElement);
+    forecastElements.currentConditions.appendChild(wrapper);
+}
+
+function displayForecast(currentConditions, upcoming) {
+    let conditionsWrapper = drawCurrentConditions(currentConditions);
+    forecastElements.currentConditions.appendChild(conditionsWrapper);
+
+    let upcomingWrapper = drawUpcoming(upcoming);
+    forecastElements.upcoming.appendChild(upcomingWrapper);
+}
+
+//can set innerHTML as empty string for faster performance
+//but if done so it removes the child elements "Current Conditions" and "Three-day forecasts"
+
+function clearForecast() {
+    // forecastElements.currentConditions.innerHTML = "";
+    // forecastElements.upcoming.innerHTML = "";
+
+    forecastElements.currentConditions.querySelectorAll("*")
+        .forEach(element => {
+            if (element.className !== "label") {
+                element.remove();
+            }
+        });
+
+    forecastElements.upcoming
+        .querySelectorAll("*")
+        .forEach(element => {
+            if (element.className !== "label") {
+                element.remove();
+            }
+        });
+}
+
+function drawUpcoming(upcoming) {
+    const UPCOMING_TAG_NAME = "span";
+    const FORECAST_DATA_CLASS_NAME = "forecast-data";
+
+    let parent = createElement("div", "forecast-info");
+
+    for (const day of upcoming.forecast) {
+        let conditionSymbol = createElement(UPCOMING_TAG_NAME, "symbol", WEATHER_SYMBOLS[day.condition]);
+
+        let degrees = createElement(UPCOMING_TAG_NAME, FORECAST_DATA_CLASS_NAME);
+        degrees.textContent = `${day.low}${WEATHER_SYMBOLS.Degrees}/${day.high}${WEATHER_SYMBOLS.Degrees}`;
+
+        let condition = createElement(UPCOMING_TAG_NAME, FORECAST_DATA_CLASS_NAME, day.condition);
+
+        let dayWrapper = createElement(UPCOMING_TAG_NAME, "upcoming");
+        dayWrapper.appendChild(conditionSymbol);
+        dayWrapper.appendChild(degrees);
+        dayWrapper.appendChild(condition);
+
+        parent.appendChild(dayWrapper);
+    }
+
+    return parent;
+}
+
+function drawCurrentConditions(currentConditions) {
+    const FORECAST_TAG_NAME = "span";
+    const FORECAST_CLASS_NAME = "forecast-data";
+
+    let conditionSymbol = createElement(FORECAST_TAG_NAME, "condition symbol", WEATHER_SYMBOLS[currentConditions.forecast.condition]);
+    let location = createElement(FORECAST_TAG_NAME, FORECAST_CLASS_NAME, currentConditions.name);
+
+    let degrees = createElement(FORECAST_TAG_NAME, FORECAST_CLASS_NAME);
+    degrees.textContent = `${currentConditions.forecast.low}${WEATHER_SYMBOLS.Degrees}/${currentConditions.forecast.high}${WEATHER_SYMBOLS.Degrees}`;
+
+    let condition = createElement(FORECAST_TAG_NAME, FORECAST_CLASS_NAME, currentConditions.forecast.condition);
+
+    let conditionWrapper = createElement(FORECAST_TAG_NAME, "condition");
+    conditionWrapper.appendChild(location);
+    conditionWrapper.appendChild(degrees);
+    conditionWrapper.appendChild(condition);
+
+    let wrapper = createElement("div", "forecasts");
+    wrapper.appendChild(conditionSymbol);
+    wrapper.appendChild(conditionWrapper);
+
+    return wrapper;
+}
+
+function createElement(tagName, className, textContent) {
+    let element = document.createElement(tagName);
+    element.setAttribute("class", className);
+
+    if (textContent !== undefined) {
+        element.textContent = textContent;
+    }
+
+    return element;
+}
+
+
+const ROOT_URL = "https://judgetests.firebaseio.com/forecast";
+
+function makeCurrentConditionURL(locationCode) {
+    return `${ROOT_URL}/today/${locationCode}.json`;
+}
+
+function makeUpcomingURL(locationCode) {
+    return `${ROOT_URL}/upcoming/${locationCode}.json`
+}
+
+function isValidLocation(locationCode) {
+    return locationCode !== undefined;
+}
+
+function fetchData(handleErr = handleError, parseResp = parseResponse, URL) {
+    return fetch(URL)
+        .then(handleErr)
+        .then(parseResp)
+        .catch(console.error);
+}
+
+function parseResponse(response) {
+    return response.json();
+}
+
+function handleError(response) {
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
+    return response;
+}
+
+const getWeatherBtn = document.getElementById("submit");
+
 function attachEvents() {
-
-    let submitBtn = document.getElementById("submit");
-    let forecastElement = document.getElementById("forecast");
-
-    submitBtn.addEventListener("click", loadWeatherForLocation);
-
-    let symbols = {
-        "Sunny": "☀",
-        "Partly sunny": "⛅",
-        "Overcast": "☁",
-        "Rain": "☂",
-        "Degrees": "°",
-    };
-
-    function loadWeatherForLocation() {
-        forecastElement.style.display = "block";
-        let url = `https://judgetests.firebaseio.com/locations.json`;
-
-        fetch(url)
-            .then(response => response.json())
-            .then(loadLocationWeather);
-
-    }
-
-    function loadLocationWeather(data) {
-        let locationInput = document.getElementById("location").value;
-        let locationCode = getLocationCode(data, locationInput);
-
-        let todayWeatherURL = `https://judgetests.firebaseio.com/forecast/today/${locationCode}.json`;
-        displayTodayWeather(todayWeatherURL);
-
-        let forecastURL = `https://judgetests.firebaseio.com/forecast/upcoming/${locationCode}.json`;
-        displayThreeDayForecast(forecastURL);
-    }
-
-    function displayThreeDayForecast(threeDayForeCastURL) {
-        fetch(threeDayForeCastURL)
-            .then(response => response.json())
-            .then(createThreeDayForecast)
-    }
-
-    function createThreeDayForecast(data) {
-        let forecastDiv = document.createElement("div");
-        forecastDiv.className = "forecast-info";
-
-        for (const day of data.forecast) {
-            let upcomingSpan = document.createElement("span");
-            upcomingSpan.className = "upcoming";
-
-            let symbolSpan = document.createElement("span");
-            symbolSpan.className = "symbol";
-            symbolSpan.textContent = symbols[day.condition];
-
-            let lowHighTemperatureSpan = document.createElement("span");
-            lowHighTemperatureSpan.className = "forecast-data";
-            let degreesSymbol = symbols["Degrees"];
-            lowHighTemperatureSpan.textContent = `${day.low}${degreesSymbol}/${day.high}${degreesSymbol}`;
-
-            let conditionSpan = document.createElement("span");
-            conditionSpan.className = "forecast-data";
-            conditionSpan.textContent = day.condition;
-
-            upcomingSpan.appendChild(symbolSpan);
-            upcomingSpan.appendChild(lowHighTemperatureSpan);
-            upcomingSpan.appendChild(conditionSpan);
-
-            forecastDiv.appendChild(upcomingSpan);
-        }
-
-        let upcomingDiv = document.getElementById("upcoming");
-        upcomingDiv.appendChild(forecastDiv);
-    }
-
-    function getLocationCode(locations, input) {
-        let found = locations.filter(location => location.name === input)[0];
-
-        return found.code;
-    }
-
-    function displayTodayWeather(url) {
-        fetch(url)
-            .then(response => response.json())
-            .then(createElements);
-    }
-
-    function createElements(data) {
-        let forecastsDiv = document.createElement("div");
-        forecastsDiv.className = "forecasts";
-
-        let conditionSymbolSpan = document.createElement("span");
-        let symbol = data.forecast.condition;
-        conditionSymbolSpan.textContent = symbols[symbol];
-        conditionSymbolSpan.className = "condition symbol";
-        forecastsDiv.appendChild(conditionSymbolSpan);
-
-        let conditionSpan = document.createElement("span");
-        conditionSpan.className = "condition";
-
-        let locationSpan = document.createElement("span");
-        locationSpan.textContent = data.name;
-        locationSpan.className = "forecast-data";
-
-        let highLowTemperatureSpan = document.createElement("span");
-        let degreeSymbol = symbols["Degrees"];
-        highLowTemperatureSpan.textContent = `${data.forecast.low}${degreeSymbol}/${data.forecast.high}${degreeSymbol}`;
-        highLowTemperatureSpan.className = "forecast-data";
-
-        let conditionAsStringSpan = document.createElement("span");
-        conditionAsStringSpan.textContent = data.forecast.condition;
-        conditionAsStringSpan.className = "forecast-data";
-
-        conditionSpan.appendChild(locationSpan);
-        conditionSpan.appendChild(highLowTemperatureSpan);
-        conditionSpan.appendChild(conditionAsStringSpan);
-
-        forecastsDiv.appendChild(conditionSpan);
-
-        let currentConditionElement = document.getElementById("current");
-        currentConditionElement.appendChild(forecastsDiv);
-    }
+    getWeatherBtn.addEventListener("click", getWeatherHandler);
 }
 
 attachEvents();
