@@ -31,9 +31,6 @@ Applications courses:
 * [Remote Databases](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/RemoteDatabases)
 * [Routing and Architecture](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/Routing/)
 * [Templating](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/Templates)
-* Webpack
-* Workshop: Single Page Application
-* JS for Front-End
 
 [Exams](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Exams)
 
