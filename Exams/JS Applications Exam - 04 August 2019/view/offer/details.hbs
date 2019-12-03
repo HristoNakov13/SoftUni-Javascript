@@ -1,0 +1,14 @@
+{{> header}}
+<div style="margin-top:3%; margin-bottom: 5%;" class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden">
+    <h2 class="display-5">{{offer.product}}</h2>
+    <div class="shadow-sm mx-auto"
+        style="border: 1px solid gray; width: 50%; height: auto; border-radius: 21px 21px 0 0;">
+        <img src="{{offer.pictureUrl}}" style="display: block; margin: 0 auto" />
+    </div>
+    <div class="container">
+        <label for=""></label>
+        <p class="text-dark">{{offer.description}}</p>
+        <p class="text-dark font-weight-bold">Price: {{offer.price}} BGN</p>
+    </div>
+</div>
+{{> footer}}

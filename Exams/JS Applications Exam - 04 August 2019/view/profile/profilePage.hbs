@@ -1,0 +1,18 @@
+{{> header}}
+<div style="padding: 5%;" class="container">
+<div class="row">
+    <div class="col-md-6 img">
+        <img style="text-align: center; max-width: 450px;" src="./images/userIcon.png" alt="" class="img-rounded">
+    </div>
+    <div style="border-left:3px solid #ded4da;" class="col-md-6 details">
+        <h2>Profile Page</h2>
+        <blockquote>
+            <p>Username: <strong>{{userData.username}}</strong></p>
+            <p>Proffesion: <strong>JavaScript Web Developer</strong></p>
+            <p>City: <strong>Sofia</strong></p>
+            <p>Hobby: <strong>Coding (hyped) :0</strong></p>
+            <p style="text-decoration: underline;">Number of purchases: <strong>{{userData.boughtProductsCount}}</strong></p>
+    </div>
+</div>
+</div>
+{{> footer}}
