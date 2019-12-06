@@ -14,10 +14,18 @@
     <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
     <script src="./node_modules/popper.js/dist/umd/popper.js"></script>
     <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./scripts/app.js"></script>
 </head>
 
 <body>
+    <section id="notifications">
+        <div class="p-3 mb-2 bg-success w-50 text-white text-center" id="successNotification">Success</div>
+        <div class="p-3 mb-2 bg-danger w-50 text-white text-center" id="errorNotification">Error</div>
+        <div class="p-3 mb-2 bg-info w-50 text-white text-center" id="loadingNotification">Loading...</div>
+    </section>
+    <div id="rooter">
+
+    </div>
 </body>
 
 </html>

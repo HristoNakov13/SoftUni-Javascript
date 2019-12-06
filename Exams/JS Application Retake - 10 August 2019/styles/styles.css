@@ -5,6 +5,7 @@
     display: none;
     z-index: 1;
     opacity: .8;
+    cursor: pointer;
 }
 
 #notifications {
