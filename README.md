@@ -8,6 +8,8 @@ Essentials - https://softuni.bg/trainings/2345/js-essentials-may-2019
 Advanced - https://softuni.bg/trainings/2346/js-advanced-june-2019
 <br/>
 Applications - https://softuni.bg/trainings/2347/js-apps-july-2019
+<br/>
+Express - https://softuni.bg/trainings/2452/js-back-end-september-2019
 
 Essentials courses:
 
