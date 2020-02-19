@@ -23,10 +23,13 @@
       <div class="form">
         <form action='' method="POST">
           <label for="name">Name</label>
+          <span class = "notification" id="invalidName">Name must be atleast 3 characters.</span>
           <input type="text" id="name" name="name">
           <label for="name">Description</label>
+          <span class = "notification" id="invalidDescription">Description must be atleast 10 characters.</span>
           <textarea id="name" name="description"></textarea>
           <label for="image">ImageUrl</label>
+          <span class = "notification" id="invalidImgUrl">Must be a valid picture URL.</span>
           <input type="text" id="image" name="imageUrl">
           <label for="difficulty">Difficulty</label>
           <select id="difficulty" name="difficultyLevel">

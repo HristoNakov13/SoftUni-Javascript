@@ -1,5 +1,5 @@
 {
-  "currentId": 5,
+  "currentId": 14,
   "entities": [
     {
       "name": "Gan356 Air SM",
@@ -28,6 +28,13 @@
       "imgUrl": "https://images-na.ssl-images-amazon.com/images/I/61izOzq%2BBAL._SY355_.jpg",
       "difficultyLevel": 565,
       "id": 5
+    },
+    {
+      "name": "Puzzle cube",
+      "description": "High quality puzzle cube.",
+      "imgUrl": "https://ae01.alicdn.com/kf/HLB18kVbKhnaK1RjSZFtq6zC2VXaC/High-Texture-Infinity-Cube-Magic-Cube-Aluminum-alloy-Professional-Competition-Speed-Puzzle-Adult-decompression-toys.jpg_960x960.jpg",
+      "difficultyLevel": "1",
+      "id": 7
     }
   ]
 }

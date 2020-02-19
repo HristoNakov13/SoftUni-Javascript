@@ -237,6 +237,10 @@ footer {
     font-size: 20px;
 }
 
+span.notification {
+    display: block;
+}
+
 /*Animations & Transitions
 */
 

@@ -6,16 +6,17 @@ const path = require("path");
 
 
 
-function writeFile(newData, resolveData) {
+function writeFile(newData, cubeData) {
     return new Promise((resolve, reject) => {
         fs.writeFile(`${__basedir}/repository/database.json`, JSON.stringify(newData, null, 2), (err) => {
             if (err) {
+                console.log("pedal lol");
                 reject(err);
                 return;
             }
 
             database = newData;
-            resolve(resolveData);
+            resolve(cubeData);
         });
     });
 }
