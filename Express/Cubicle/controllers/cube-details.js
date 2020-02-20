@@ -1,7 +1,7 @@
-const { repository } = require("./util");
+const { cubeModel } = require("./util");
 
 async function get(req, res) {
-    const cube = await repository.findByid(+req.params.id);
+    const cube = await cubeModel.findById(req.params.id);
 
     if (cube === undefined) {
         res.redirect("/not-found");

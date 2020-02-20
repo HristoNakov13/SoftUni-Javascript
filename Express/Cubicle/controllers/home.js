@@ -1,11 +1,31 @@
-const { repository } = require("./util");
-const CubeCreateModel = require("../models/CubeCreateModel");
+const { cubeModel } = require("./util");
 
-async function get(req, res) {
-    const cubes = await repository.findAll();
-    res.render("index.hbs", { cubes });
+function get(req, res) {
+    let { search, from, to } = req.query;
+
+    if (from === "" || isNaN(from)) {
+        from = 0;
+    }
+
+    if (to === "" || isNaN(to) || +to < 0) {
+        to = Number.MAX_SAFE_INTEGER;
+    }
+
+    console.log(from, to);
+
+    const cubes = cubeModel.find()
+        .where("difficultyLevel")
+        .gte(+from)
+        .lte(+to)
+        .then(cubes => {
+            if (search !== "") {
+                cubes = cubes.filter(cube => cube.name.toLowerCase().includes(search.toLowerCase()));
+            }
+
+            res.render("index.hbs", { cubes });
+        });
 }
 
 module.exports = {
     get
-}
+};

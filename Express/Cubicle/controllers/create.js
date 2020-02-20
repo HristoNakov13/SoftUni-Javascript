@@ -1,4 +1,4 @@
-const { repository, createValidator, CubeCreateModel } = require("./util");
+const { createValidator, Cube } = require("./util");
 
 function get(req, res) {
     res.render("create.hbs");
@@ -7,10 +7,11 @@ function get(req, res) {
 function post(req, res) {
     const { name, description, imageUrl, difficultyLevel } = req.body;
 
-    const cube = new CubeCreateModel(name, description, imageUrl, difficultyLevel);
+    const cube = new Cube({ name, description, imageUrl, difficultyLevel });
 
-    repository.save(cube).then(cubeData => {
-        res.redirect(`/details/${cubeData.id}`);
+    cube.save(function (err, cubeData) {
+        if (err) return handleError(err);
+        res.redirect(`/details/${cubeData._id}`);
     });
 }
 
