@@ -11,7 +11,9 @@ function get(req, res) {
         to = Number.MAX_SAFE_INTEGER;
     }
 
-    console.log(from, to);
+    if (search === undefined) {
+        search = "";
+    }
 
     const cubes = cubeModel.find()
         .where("difficultyLevel")

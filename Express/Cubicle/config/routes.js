@@ -9,6 +9,12 @@ module.exports = (app) => {
 
     app.get("/about", controllers.about.get);
 
-    app.get("/create", controllers.create.get);
-    app.post("/create", controllers.create.middleValidation, controllers.create.post);
+    app.get("/create/cube", controllers.createCube.get);
+    app.post("/create/cube", controllers.createCube.middleValidation, controllers.createCube.post);
+
+    app.get("/create/accessory", controllers.createAccessory.get);
+    app.post("/create/accessory", controllers.createAccessory.post);
+
+    app.get("/attach-accessory/:id", controllers.attachAccessory.get);
+    app.post("/attach-accessory/:id", controllers.attachAccessory.post);
 };

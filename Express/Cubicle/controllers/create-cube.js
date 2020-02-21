@@ -1,7 +1,7 @@
 const { createValidator, Cube } = require("./util");
 
 function get(req, res) {
-    res.render("create.hbs");
+    res.render("create-cube.hbs");
 }
 
 function post(req, res) {
