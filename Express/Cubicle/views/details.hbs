@@ -10,13 +10,16 @@
 
 <body>
   <div class="container">
-    <header>
+   <header>
       <ul>
         <li><img class="logo" src="/images/logo.png"></li>
         <li><a href="/">Browse</a></li>
+        <li><a href="/about">About</a></li>
         <li><a href="/create/cube">Add a Cube</a></li>
         <li><a href="/create/accessory">Add Accessory</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="/logout">Logout</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
       </ul>
     </header>
     <main>
@@ -25,7 +28,8 @@
       <div class="details">
         <p><span>Description:</span>{{cube.description}}</p>
         <p><span>Difficulty level:</span> {{cube.dificultyLevel}}</p>
-        <a class="btn" href="/attach-accessory/{{cube._id}}">Attach accessories</a>
+        <a class="btn" href="/edit/cube/{{cube._id}}">Edit</a>
+        <a class="btn" href="/delete/cube/{{cube._id}}">Delete</a>
         <a class="btn" href="/">Back</a>
       </div>
       <h2>Accessories</h2>
