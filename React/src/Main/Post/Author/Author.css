@@ -1,0 +1,18 @@
+.Author {
+    /* border:1px solid red; */
+    height: auto;
+    text-align: right;
+    margin-bottom: 0.5%;
+}
+
+.Author span {
+    text-decoration: underline;
+    text-align: right;
+    /* border:1px solid green; */
+    padding-right: 1%;
+}
+
+.Author img {
+    width: 32px;
+    height: 32px;
+}
