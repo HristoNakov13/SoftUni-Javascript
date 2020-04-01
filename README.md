@@ -9,7 +9,13 @@ Advanced - https://softuni.bg/trainings/2346/js-advanced-june-2019
 <br/>
 Applications - https://softuni.bg/trainings/2347/js-apps-july-2019
 <br/>
-Express - https://softuni.bg/trainings/2452/js-back-end-september-2019
+<br/>
+JS backend and frontend modules:
+<br/>
+Exporess - https://softuni.bg/trainings/2452/js-back-end-september-2019
+<br/>
+React - https://softuni.bg/trainings/2570/reactjs-october-2019
+<br/>
 
 Essentials courses:
 
@@ -33,6 +39,9 @@ Applications courses:
 * [Remote Databases](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/RemoteDatabases)
 * [Routing and Architecture](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/Routing/)
 * [Templating](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Applications/Templates)
+
+[Express](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Express)
+[React](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/React)
 
 [Exams](https://github.com/HristoNakov13/SoftUni-Javascript/tree/master/Exams)
 
