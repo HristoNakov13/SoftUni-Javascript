@@ -5,32 +5,20 @@ import Link from "../shared/Link/Link"
 const Aside = () => {
     return <aside className="Aside">
         <ul>
-            <Link url="#">
-                Going to 1
+            <Link url="/">
+                Posts
             </Link>
-            <Link url="#">
-                Going to 2
+            <Link url="/posts/create">
+                New Post
             </Link>
-            <Link url="#">
-                Going to 3
+            <Link url="/users/register">
+                Register
             </Link>
-            <Link url="#">
-                Going to 4
+            <Link url="/users/login">
+                Login
             </Link>
-            <Link url="#">
-                Going to 5
-            </Link>
-            <Link url="#">
-                Going to 5
-            </Link>
-            <Link url="#">
-                Going to 5
-            </Link>
-            <Link url="#">
-                Going to 5
-            </Link>
-            <Link url="#">
-                Going to 5
+            <Link url="/users/profile">
+                Profile
             </Link>
         </ul>
     </aside>

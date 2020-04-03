@@ -6,16 +6,3 @@
     /* border:1px solid blue; */
     margin-bottom: 5%;
 }
-
-h1 {
-    text-align: center;
-    color: #234465;
-    text-decoration: underline;
-    margin-bottom: 2%;
-}
-
-.Posts {
-    width: 100%;
-    /* border:1px solid red; */
-    height: 45vh;
-}
