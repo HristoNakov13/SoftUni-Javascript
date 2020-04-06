@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+.error {
+    color: red;
+}
+
 label {
     float: left;
     width: 30%;
