@@ -1,7 +1,9 @@
 import React from "react";
-import Link from "../shared/Link/Link"
 import "./Navigation.css";
 import logo from "../static/white-origami-bird.png";
+
+import Link from "../shared/Link/Link"
+import NavLinks from "../shared/NavLinks/NavLinks";
 
 const Navigation = () => {
     return <nav className="Navigation">
@@ -9,21 +11,7 @@ const Navigation = () => {
             <Link url="/">
                 <img id="logo" src={logo} alt="logo"></img>
             </Link>
-            <Link url="/">
-                Posts
-            </Link>
-            <Link url="/posts/create">
-                New Post
-            </Link>
-            <Link url="/users/register">
-                Register
-            </Link>
-            <Link url="/users/login">
-                Login
-            </Link>
-            <Link url="/users/profile">
-                Profile
-            </Link>
+            <NavLinks />
         </ul>
     </nav>
 }

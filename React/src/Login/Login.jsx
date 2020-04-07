@@ -26,9 +26,9 @@ class Login extends React.Component {
                         this.props.history.push("/");
 
                         return;
+                    } else if (res.status === 401) {
+                        this.props.addFormError("username", "Wrong username/password.");
                     }
-
-                    this.props.addFormError("username", "Wrong username/password.");
                 })
             });
     }

@@ -3,6 +3,7 @@ import util from "../util";
 const endpoints = {
     register: "/api/user/register",
     login: "/api/user/login",
+    logout: "/api/user/logout"
 }
 
 const buildUrl = (endPoint) => {
@@ -16,9 +17,9 @@ const userService = {
             body: JSON.stringify(userData),
             headers: {
                 "Content-type": "application/json"
-            }
-        })
-            .catch(console.error);
+            },
+            credentials: "include"
+        }).catch(console.error);
     },
 
     login: (userData) => {
@@ -28,8 +29,14 @@ const userService = {
             headers: {
                 "Content-type": "application/json"
             }
-        })
-        .catch(console.error);
+        }).catch(console.error);
+    },
+
+    logout: () => {
+        return fetch(buildUrl(endpoints.logout), {
+            method: "POST",
+            credentials: "include"
+        }).catch(console.error);
     }
 }
 
