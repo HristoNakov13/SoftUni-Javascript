@@ -4,9 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Layout from "./components/Layout/Layout";
 import Jumbotron from "./components/Layout/Jumbotron";
-import LOL from "./components/wtf";
 import Navigation from "./components/Navigation/Navigation";
 import AllViruses from "./components/ShowViruses/AllViruses";
+import AddVirus from "./components/AddVirus/AddVirus";
 
 function App() {
   return (
@@ -16,8 +16,8 @@ function App() {
           <Navigation />
           <Jumbotron>
             <Switch>
-              {/* <Route path="/" component={LOL} /> */}
               <Route path="/viruses/all" component={AllViruses} />
+              <Route path="/viruses/add" component={AddVirus} />
             </Switch>
           </Jumbotron>
         </Layout>
