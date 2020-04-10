@@ -11,6 +11,7 @@ const Mutations: React.FC<Props> = ({ mutations }) => {
             return <Form.Check key={index} type="radio"
                 label={mutation}
                 name="mutations"
+                value={mutation}
                 id={mutation}
             />
         })}
