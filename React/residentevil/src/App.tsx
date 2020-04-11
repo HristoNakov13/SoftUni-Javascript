@@ -7,6 +7,7 @@ import Jumbotron from "./components/Layout/Jumbotron";
 import Navigation from "./components/Navigation/Navigation";
 import AllViruses from "./components/ShowViruses/AllViruses";
 import AddVirus from "./components/AddVirus/AddVirus";
+import VirusDetails from "./components/VirusDetails/VirusDetails";
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
           <Navigation />
           <Jumbotron>
             <Switch>
-              <Route path="/viruses/all" component={AllViruses} />
-              <Route path="/viruses/add" component={AddVirus} />
+              <Route path="/viruses/all" exact component={AllViruses} />
+              <Route path="/viruses/add" exact component={AddVirus} />
+              <Route path="/viruses/:id" component={VirusDetails} />
             </Switch>
           </Jumbotron>
         </Layout>

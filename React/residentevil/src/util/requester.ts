@@ -15,17 +15,17 @@ function fetchData(URL: string, headers: RequestInit): Promise<any> {
         .catch(console.error);
 }
 
-function buildHeaders(httpMethod: string): Object {
-    const headers = {
+function buildHeaders(httpMethod: string, data?: object | Array<any>): Object {
+    const headers: any = {
         method: httpMethod,
         headers: {
             "Content-Type": "application/json",
         }
     };
 
-    // if (data !== undefined) {
-    //     headers.body = JSON.stringify(data);
-    // }
+    if (data) {
+        headers.body = data;
+    }
 
     return headers;
 }
@@ -37,8 +37,8 @@ function get(endpoint: string) {
     return fetchData(URL, headers);
 }
 
-function post(endpoint: string) {
-    const headers = buildHeaders("POST");
+function post(endpoint: string, data?: object | Array<any>) {
+    const headers = buildHeaders("POST", data);
     const URL = buildURL(endpoint);
 
     return fetchData(URL, headers);

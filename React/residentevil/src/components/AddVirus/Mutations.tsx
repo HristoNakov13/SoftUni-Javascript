@@ -10,7 +10,7 @@ const Mutations: React.FC<Props> = ({ mutations }) => {
         {mutations && mutations.map((mutation, index) => {
             return <Form.Check key={index} type="radio"
                 label={mutation}
-                name="mutations"
+                name="mutation"
                 value={mutation}
                 id={mutation}
             />
