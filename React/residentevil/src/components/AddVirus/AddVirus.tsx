@@ -11,7 +11,7 @@ import validationSchema from "./virus-validation-schema";
 import VirusInterface from "./virus-interface";
 import Virus from "../ShowViruses/Virus";
 
-const AddVirus: React.FC = () => {
+const AddVirus: React.FC = (props: any) => {
     const [mutations, setMutations] = useState<string[]>([]);
     const [magnitudes, setMagnitudes] = useState<string[]>([]);
     const [capitals, setCapitals] = useState<any[]>([]);
@@ -44,7 +44,7 @@ const AddVirus: React.FC = () => {
         turnoverRate: 0,
         hoursUntilTurn: 0,
         magnitude: "",
-        affectedCapitals: affectedCapitals,
+        capitals: affectedCapitals,
         errors: errors
     });
 
@@ -79,7 +79,7 @@ const AddVirus: React.FC = () => {
 
         setState(prev => ({
             ...prev,
-            affectedCapitals: capitalIds
+            capitals: capitalIds
         }));
     }
 
@@ -90,40 +90,37 @@ const AddVirus: React.FC = () => {
     }
 
     const createVirus = (virus: VirusInterface) => {
-        virusService.createVirus(virus);
-
+        virusService.createVirus(virus).then((res: any) => {
+            console.log(res);
+            const virusId = res.id;
+            props.history.push(`/viruses/${virusId}`);
+        });
     }
 
-   
+    const handleErrors = (err: yup.ValidationError) => {
+        const errors: any = err.inner.reduce((acc: any, { path, message }) => {
+            acc[path] = (acc[path] || []).concat(message);
 
-    const validateForm = (schema: yup.ObjectSchema) => {
-        schema.validate(state, { abortEarly: false })
-            .then(() => {
-                const virus: VirusInterface = state;
+            return acc;
+        }, {});
 
-                createVirus(virus);
-             })
-            .catch((err: yup.ValidationError) => {
-                const errors: any = err.inner.reduce((acc: any, { path, message }) => {
-                    acc[path] = (acc[path] || []).concat(message);
-
-                    return acc;
-                }, {});
-
-                setState(prev => ({
-                    ...prev,
-                    errors
-                }));
-            })
+        setState(prev => ({
+            ...prev,
+            errors
+        }));
     }
 
     const submitHandler = (event: any) => {
         event.preventDefault();
-        validateForm(validationSchema);
-
+        validationSchema.validate(state, { abortEarly: false })
+            .then(() => {
+                const virus: VirusInterface = state;
+                createVirus(virus);
+            })
+            .catch(handleErrors);
     }
 
-    
+
 
     const nameError = getFirstError("name");
     const descriptionError = getFirstError("description");
@@ -191,7 +188,7 @@ const AddVirus: React.FC = () => {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Affected Capitals:</Form.Label>
-                <Form.Control onChange={capitalsChangeHandler} as="select" multiple name="affectedCapitals">
+                <Form.Control onChange={capitalsChangeHandler} as="select" multiple name="capitals">
                     <Capitals capitals={capitals} />
                 </Form.Control>
             </Form.Group>

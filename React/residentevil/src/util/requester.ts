@@ -24,7 +24,7 @@ function buildHeaders(httpMethod: string, data?: object | Array<any>): Object {
     };
 
     if (data) {
-        headers.body = data;
+        headers.body = JSON.stringify(data);
     }
 
     return headers;

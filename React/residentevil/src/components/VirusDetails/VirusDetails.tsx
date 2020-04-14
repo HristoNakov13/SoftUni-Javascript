@@ -1,25 +1,35 @@
 import React, { Fragment, useState, useEffect } from "react";
 
+import Capitals from "./Capitals";
+
 import virusService from "../../services/virus-service";
-import Virus from "../AddVirus/virus-interface";
+import VirusDetailsInterface from "./virus-details-interface";
+import helper from "../../util/helper";
+
 
 const VirusDetails: React.FC = (props: any) => {
-    const [virus, setVirus] = useState<Virus>();
+    const [virus, setVirus] = useState<VirusDetailsInterface>();
 
     useEffect(() => {
         const virusId = props.match.params.id;
 
         virusService.getVirusById(virusId)
-            .then((res: Virus) => {
+            .then((res: VirusDetailsInterface) => {
                 setVirus(res);
             });
     }, []);
 
-    console.log(virus);
-
     return <Fragment>
-        <h1>{virus?.magnitude}</h1>
-        <h1>{virus?.name}</h1>
+        <h1>Virus details:</h1>
+        <ul>
+            {virus && Object.keys(virus).map(key => {
+                if (helper.hasKey(virus, key)) {
+                    return <li>{key !== "capitals"
+                        ? `${key} - ${virus[key]}`
+                        : <Capitals capitals={virus.capitals} />}</li>
+                }
+            })}
+        </ul>
     </Fragment>
 }
 

@@ -1,6 +1,7 @@
 import requester from "../util/requester";
 
 import Virus from "../components/AddVirus/virus-interface";
+import VirusDetails from "../components/VirusDetails/virus-details-interface";
 
 const ROOT_END_POINT = "/api/viruses";
 
@@ -37,7 +38,7 @@ const virusService = {
         return requester.post(API_ENDPOINTS.createVirus, virus);
     },
 
-    getVirusById: (virusId: string): Promise<Virus> => {
+    getVirusById: (virusId: string): Promise<VirusDetails> => {
         return requester.get(API_ENDPOINTS.viruses + `/${virusId}`)
     }
 };

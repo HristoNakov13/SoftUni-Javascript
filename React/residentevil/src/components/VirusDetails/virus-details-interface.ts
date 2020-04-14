@@ -1,4 +1,6 @@
-interface Virus {
+import CapitalDetails from "./capital-details-interface";
+
+interface VirusDetails {
     name: string,
     description: string,
     sideEffects: string,
@@ -9,7 +11,7 @@ interface Virus {
     turnoverRate: number,
     hoursUntilTurn: number,
     magnitude: string,
-    capitals: number[],
+    capitals: CapitalDetails[],
 }
 
-export default Virus;
+export default VirusDetails;

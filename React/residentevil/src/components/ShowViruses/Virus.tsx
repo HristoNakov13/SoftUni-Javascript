@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import {Button} from "react-bootstrap";
 
 interface VirusInterface {
     id: string,
@@ -21,6 +22,7 @@ const Virus: React.FC<VirusProps> = ({ viruses }) => {
                 <td>{name}</td>
                 <td>{magnitude}</td>
                 <td>{releasedOn}</td>
+                <td><a href={`/viruses/${id}`}><Button>Details</Button></a></td>
             </tr>
         })}
     </Fragment>
