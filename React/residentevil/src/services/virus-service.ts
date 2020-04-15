@@ -1,6 +1,6 @@
 import requester from "../util/requester";
 
-import Virus from "../components/AddVirus/virus-interface";
+import Virus from "../components/VirusForm/virus-interface";
 import VirusDetails from "../components/VirusDetails/virus-details-interface";
 
 const ROOT_END_POINT = "/api/viruses";

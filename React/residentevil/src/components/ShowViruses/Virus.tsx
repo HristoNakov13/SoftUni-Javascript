@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import {Button} from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 interface VirusInterface {
     id: string,
@@ -22,7 +23,13 @@ const Virus: React.FC<VirusProps> = ({ viruses }) => {
                 <td>{name}</td>
                 <td>{magnitude}</td>
                 <td>{releasedOn}</td>
-                <td><a href={`/viruses/${id}`}><Button>Details</Button></a></td>
+                <td>
+                    <Link to={`/viruses/${id}`}>
+                        <Button variant="primary">
+                            Details
+                        </Button>
+                    </Link>
+                </td>
             </tr>
         })}
     </Fragment>

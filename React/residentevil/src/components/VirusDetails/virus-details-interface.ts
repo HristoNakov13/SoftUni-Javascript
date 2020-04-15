@@ -1,6 +1,7 @@
 import CapitalDetails from "./capital-details-interface";
 
 interface VirusDetails {
+    id: string,
     name: string,
     description: string,
     sideEffects: string,
