@@ -1,10 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
 
 import virusService from "../../services/virus-service";
-import VirusInterface from "../VirusForm/virus-interface";
+import VirusDetailsInterface from "../VirusDetails/virus-details-interface";
 import VirusForm from "../VirusForm/VirusForm";
-import CapitalsInterface from "../VirusDetails/Capitals";
-import CapitalDetailsInterface from "../VirusDetails/capital-details-interface";
 
 //TODO fix interface mash fuck up
 
@@ -33,8 +31,9 @@ const EditVirus: React.FC = (props: any) => {
             });
     }, [props.match.params.id])
 
-    const submitFunc = (virus: VirusInterface): Promise<any> => {
-        return virusService.createVirus(virus);
+    const submitFunc = (virus: VirusDetailsInterface): Promise<any> => {
+        console.log("here")
+        return virusService.editVirus(virus);
     };
 
     return (

@@ -12,7 +12,9 @@ const API_ENDPOINTS = {
     mutations: ROOT_END_POINT + "/mutations",
     magnitudes: ROOT_END_POINT + "/magnitudes",
     capitals: ROOT_END_POINT + "/capitals",
-    createVirus: ROOT_END_POINT + "/create"
+    createVirus: ROOT_END_POINT + "/create",
+    editVirus: ROOT_END_POINT + "/edit",
+    deleteVirus: ROOT_END_POINT
 };
 
 //should object interfaces be imported here?
@@ -38,8 +40,16 @@ const virusService = {
         return requester.post(API_ENDPOINTS.createVirus, virus);
     },
 
-    getVirusById: (virusId: string): Promise<VirusDetails> => {
-        return requester.get(API_ENDPOINTS.viruses + `/${virusId}`)
+    getVirusById: (id: string): Promise<VirusDetails> => {
+        return requester.get(API_ENDPOINTS.viruses + `/${id}`);
+    },
+
+    editVirus: (virus: VirusDetails): Promise<any> => {
+        return requester.put(API_ENDPOINTS.editVirus, virus);
+    },
+
+    deleteVirus: (id: string): Promise<any> => {
+        return requester.del(API_ENDPOINTS.deleteVirus, { id })
     }
 };
 

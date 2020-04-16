@@ -41,8 +41,11 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
     const [redirect, setRedirect] = useState("");
 
     const onSubmit = () => {
+        
+        console.log("wtf");
         const virus: VirusInterface = state;
         virus.capitals = affectedCapitals;
+
 
         submitFunc(virus).then((res: any) => {
             const virusId = res.id;
@@ -52,10 +55,10 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
 
     const { state, changeHandler, errors, submitHandler } = useForm(initialState, validationSchema, onSubmit);
 
-    const [affectedCapitals, setAffectedCapitals] = useState<number[]>([]);
+    const [affectedCapitals, setAffectedCapitals] = useState<string[]>([]);
     const capitalsChangeHandler = (event: any) => {
         const selectedOptions: HTMLCollection = event.target.selectedOptions;
-        const capitalIds: number[] = Array.from(selectedOptions)
+        const capitalIds: string[] = Array.from(selectedOptions)
             .map((e: any) => e.value);
 
         setAffectedCapitals(capitalIds);
@@ -128,22 +131,22 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
 
             <Form.Group>
                 <Form.Label>Creator:</Form.Label>
-                <Form.Control onChange={changeHandler} type="text" name="creator" placeholder="Creator..." />
+                <Form.Control onChange={changeHandler} type="text" value={state.creator} name="creator" placeholder="Creator..." />
                 {creatorError && <div className="error">{creatorError}</div>}
             </Form.Group>
 
             <Form.Group >
-                <Form.Check onChange={changeHandler} type="checkbox" name="isCurable" label="Is Curable?" />
+                <Form.Check onChange={changeHandler} type="checkbox" checked={state.isCurable} name="isCurable" label="Is Curable?" />
             </Form.Group>
 
             <Form.Group>
-                <Form.Check onChange={changeHandler} type="checkbox" name="isDeadly" label="Is Deadly?" />
+                <Form.Check onChange={changeHandler} type="checkbox" checked={state.isDeadly} name="isDeadly" label="Is Deadly?" />
             </Form.Group>
 
             <fieldset>
                 <Form.Group onChange={changeHandler}>
                     <Col>
-                        <Mutations mutations={mutations} />
+                        <Mutations mutations={mutations} selected={state.mutation} />
                         {mutationError && <div className="error">{mutationError}</div>}
                     </Col>
                 </Form.Group>
@@ -151,13 +154,13 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
 
             <Form.Group>
                 <Form.Label>Turnover Rate:</Form.Label>
-                <Form.Control onChange={changeHandler} type="number" min={0} max={100} name="turnoverRate" />
+                <Form.Control onChange={changeHandler} type="number" value={state.turnoverRate} min={0} max={100} name="turnoverRate" />
                 {turnoverRateError && <div className="error">{turnoverRateError}</div>}
             </Form.Group>
 
             <Form.Group>
                 <Form.Label>Hours Until Turn:</Form.Label>
-                <Form.Control onChange={changeHandler} type="number" min={1} max={12} name="hoursUntilTurn" />
+                <Form.Control onChange={changeHandler} type="number" value={state.hoursUntilTurn} min={1} max={12} name="hoursUntilTurn" />
                 {hoursUntilTurnError && <div className="error">{hoursUntilTurnError}</div>}
             </Form.Group>
 
@@ -165,7 +168,7 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
                 <Form.Label>Magnitude:</Form.Label>
                 <Form.Control onChange={changeHandler} as="select" name="magnitude">
                     <option disabled selected>Select magnitude...</option>
-                    <Magnitudes magnitudes={magnitudes} />
+                    <Magnitudes magnitudes={magnitudes} selected={state.magnitude} />
                 </Form.Control>
                 {magnitudeError && <div className="error">{magnitudeError}</div>}
             </Form.Group>
@@ -173,7 +176,7 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
             <Form.Group>
                 <Form.Label>Affected Capitals:</Form.Label>
                 <Form.Control onChange={capitalsChangeHandler} as="select" multiple name="capitals">
-                    <Capitals capitals={capitals} />
+                    <Capitals capitals={capitals} selected={state.capitals[0] && state.capitals[0].id ? state.capitals.map((c: any) => c.id) : state.capitals} />
                 </Form.Control>
             </Form.Group>
 

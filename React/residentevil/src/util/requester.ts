@@ -2,6 +2,7 @@ function fetchData(URL: string, headers: RequestInit): Promise<any> {
     return fetch(URL, headers)
         .then(res => {
             if (!res.ok) {
+                console.log(res);
                 throw new Error(res.statusText);
             }
 
@@ -44,6 +45,20 @@ function post(endpoint: string, data?: object | Array<any>) {
     return fetchData(URL, headers);
 }
 
+function put(endpoint: string, data: object | Array<any>) {
+    const headers = buildHeaders("PUT", data);
+    const URL = buildURL(endpoint);
+
+    return fetchData(URL, headers);
+}
+
+function del(endpoint: string, data: object | Array<any>) {
+    const headers = buildHeaders("DELETE", data);
+    const URL = buildURL(endpoint);
+
+    return fetchData(URL, headers);
+}
+
 const ROOT_URL = " http://localhost:8080";
 
 function buildURL(endpoint: string): string {
@@ -53,6 +68,8 @@ function buildURL(endpoint: string): string {
 const requester = {
     get,
     post,
+    put,
+    del
 };
 
 export default requester;

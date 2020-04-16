@@ -9,7 +9,7 @@ interface Virus {
     turnoverRate: number,
     hoursUntilTurn: number,
     magnitude: string,
-    capitals: number[],
+    capitals: string[],
 }
 
 export default Virus;

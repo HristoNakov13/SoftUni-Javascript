@@ -1,13 +1,12 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import Capitals from "./Capitals";
 
 import virusService from "../../services/virus-service";
 import VirusDetailsInterface from "./virus-details-interface";
 import hasKey from "../../util/has-key";
-
 
 const VirusDetails: React.FC = (props: any) => {
     const [virus, setVirus] = useState<VirusDetailsInterface>();
@@ -18,8 +17,27 @@ const VirusDetails: React.FC = (props: any) => {
         virusService.getVirusById(virusId)
             .then((res: VirusDetailsInterface) => {
                 setVirus(res);
-            });
+            })
+            .catch(console.error);
     }, [props.match.params.id]);
+
+    const [redirect, setRedirect] = useState("");
+
+    const deleteVirus = () => {
+        if (!virus) {
+            return;
+        }
+
+        virusService.deleteVirus(virus.id)
+            .then(() => {
+                setRedirect("/viruses/all");
+            })
+            .catch(console.error);
+    }
+
+    if (redirect) {
+        return <Redirect to={redirect} />
+    }
 
     return <Fragment>
         <h1>Virus details:</h1>
@@ -38,6 +56,10 @@ const VirusDetails: React.FC = (props: any) => {
                 Edit
             </Button>
         </Link>
+
+        <Button variant="danger" onClick={deleteVirus}>
+            Delete
+            </Button>
     </Fragment>
 }
 

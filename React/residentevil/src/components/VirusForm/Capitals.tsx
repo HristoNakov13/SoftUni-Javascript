@@ -6,13 +6,14 @@ interface Capital {
 }
 
 interface Props {
-    capitals: Capital[]
+    capitals: Capital[],
+    selected: string[]
 }
 
-const Capitals: React.FC<Props> = ({ capitals }) => {
+const Capitals: React.FC<Props> = ({ capitals, selected }) => {
     return <Fragment>
         {capitals && capitals.map(capital => {
-            return <option key={capital.id} value={capital.id}>
+            return <option key={capital.id} value={capital.id} selected={selected.includes(capital.id)}>
                 {capital.name}
             </option>
         })}

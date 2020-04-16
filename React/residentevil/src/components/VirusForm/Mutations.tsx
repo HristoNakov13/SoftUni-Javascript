@@ -2,10 +2,11 @@ import React, { Fragment } from "react";
 import Form from "react-bootstrap/Form";
 
 interface Props {
-    mutations: string[]
+    mutations: string[],
+    selected: string
 }
 
-const Mutations: React.FC<Props> = ({ mutations }) => {
+const Mutations: React.FC<Props> = ({ mutations, selected }) => {
     return <Fragment>
         {mutations && mutations.map((mutation, index) => {
             return <Form.Check key={index} type="radio"
@@ -13,6 +14,7 @@ const Mutations: React.FC<Props> = ({ mutations }) => {
                 name="mutation"
                 value={mutation}
                 id={mutation}
+                checked={mutation === selected}
             />
         })}
     </Fragment>

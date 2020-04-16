@@ -29,10 +29,7 @@ const validationSchema = yup.object().shape({
         .max(24, "Hours until turn should be between 1 and 24"),
 
     magnitude: yup.string()
-        .required("Magnitude is required."),
-
-    releasedOn: yup.date()
-        .max(new Date(), "Date cannot be in the present.")
+        .required("Magnitude is required.")
 });
 
 export default validationSchema;
