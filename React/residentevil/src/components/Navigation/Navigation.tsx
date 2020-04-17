@@ -21,6 +21,9 @@ const Navigation: React.FC = () => {
                     <NavLink to="/viruses/add" className="dropdownLink">Add</NavLink>
                 </NavDropdown.Item>
             </NavDropdown>
+            <Nav.Link>
+                <NavLink to="/register" className="navLink">Register</NavLink>
+            </Nav.Link>
         </Nav>
     </Navbar>
 };

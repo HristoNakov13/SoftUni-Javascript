@@ -41,8 +41,6 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
     const [redirect, setRedirect] = useState("");
 
     const onSubmit = () => {
-        
-        console.log("wtf");
         const virus: VirusInterface = state;
         virus.capitals = affectedCapitals;
 
@@ -180,7 +178,7 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
                 </Form.Control>
             </Form.Group>
 
-            <Button onClick={submitHandler} type="submit">Add Virus</Button>
+            <Button onClick={submitHandler} type="submit">Submit</Button>
         </Form>
     </Fragment>
 };

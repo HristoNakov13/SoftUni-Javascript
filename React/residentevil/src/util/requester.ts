@@ -12,8 +12,7 @@ function fetchData(URL: string, headers: RequestInit): Promise<any> {
             return res.status === 204
                 ? res
                 : res.json();
-        })
-        .catch(console.error);
+        });
 }
 
 function buildHeaders(httpMethod: string, data?: object | Array<any>): Object {
