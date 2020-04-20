@@ -36,7 +36,6 @@ const useForm = (initialState: any, validationSchema: yup.ObjectSchema, onSubmit
     })();
 
     const handleErrors = (err: yup.ValidationError) => {
-        console.log(err);
         const errors: any = err.inner.reduce((acc: any, { path, message }) => {
             acc[path] = (acc[path] || []).concat(message);
 

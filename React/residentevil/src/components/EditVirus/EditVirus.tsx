@@ -32,7 +32,6 @@ const EditVirus: React.FC = (props: any) => {
     }, [props.match.params.id])
 
     const submitFunc = (virus: VirusDetailsInterface): Promise<any> => {
-        console.log("here")
         return virusService.editVirus(virus);
     };
 

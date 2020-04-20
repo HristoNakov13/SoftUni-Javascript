@@ -1,37 +1,40 @@
 import React, { Fragment, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
-import "../../shared/styles.css";
 
-import validationSchema from "./register-validation-schema";
 import useForm from "../../shared/hooks/use-form";
+import validationSchema from "./login-validation-schema";
 import getFirstError from "../../util/get-field-first-error";
+import Credentials from "./credentials-interface";
 import userService from "../../services/user-service";
-import UserRegisterInterface from "./user-register-interface";
 
 const initialState = {
     username: "",
-    password: "",
-    confirmPassword: ""
+    password: ""
 };
 
-const Register: React.FC = () => {
+const Login: React.FC = () => {
     const [redirect, setRedirect] = useState("");
+    const [serverError, setServerError] = useState("");
 
     const onSubmit = (state: any) => {
-        const user: UserRegisterInterface = { ...state };
+        const credentials: Credentials = { ...state };
 
-        userService.register(user)
-            .then(() => {
-                setRedirect("/login");
-            }).catch(console.error);
+        userService.login(credentials)
+            .then((response) => {
+                console.log(response);
+                // setRedirect("/");
+
+            }).catch(err => {
+                console.log(err);
+            })
+
     };
 
-    const { state, errors, submitHandler, changeHandler } = useForm(initialState, validationSchema, onSubmit);
+    const { state, submitHandler, changeHandler, errors } = useForm(initialState, validationSchema, onSubmit);
 
     const usernameError = getFirstError("username", errors);
     const passwordError = getFirstError("password", errors);
-    const confirmPasswordError = getFirstError("confirmPassword", errors);
 
     if (redirect) {
         return <Redirect to={redirect} />;
@@ -52,16 +55,10 @@ const Register: React.FC = () => {
                     {passwordError && <div className="error">{passwordError}</div>}
                 </Form.Group>
 
-                <Form.Group controlId="confirmPassword">
-                    <Form.Label>Confirm Password:</Form.Label>
-                    <Form.Control onChange={changeHandler} type="password" name="confirmPassword" placeholder="Confirm password..." />
-                    {confirmPasswordError && <div className="error">{confirmPasswordError}</div>}
-                </Form.Group>
-
                 <Button onClick={submitHandler} variant="primary" type="submit">Submit</Button>
             </Form>
         </Fragment>
     )
 };
 
-export default Register;
+export default Login;

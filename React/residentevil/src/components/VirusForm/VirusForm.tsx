@@ -12,7 +12,7 @@ import VirusInterface from "./virus-interface";
 import InputElement from "../../shared/components/form/InputElement";
 import TextArea from "../../shared/components/form/TextArea";
 import useForm from "../../shared/hooks/use-form";
-import hasKey from "../../util/has-key";
+import getFirstError from "../../util/get-field-first-error";
 
 interface Props {
     initialState: any,
@@ -40,7 +40,7 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
 
     const [redirect, setRedirect] = useState("");
 
-    const onSubmit = () => {
+    const onSubmit = (state: any) => {
         const virus: VirusInterface = state;
         virus.capitals = affectedCapitals;
 
@@ -62,20 +62,14 @@ const VirusForm: React.FC<Props> = ({ initialState, submitFunc }, props: any) =>
         setAffectedCapitals(capitalIds);
     };
 
-    const getFirstError = (fieldName: string): string => {
-        return hasKey(errors, fieldName)
-            ? errors[fieldName][0]
-            : "";
-    };
-
-    const nameError = getFirstError("name");
-    const descriptionError = getFirstError("description");
-    const sideEffectsError = getFirstError("sideEffects");
-    const creatorError = getFirstError("creator");
-    const mutationError = getFirstError("mutation");
-    const magnitudeError = getFirstError("magnitude");
-    const turnoverRateError = getFirstError("turnoverRate");
-    const hoursUntilTurnError = getFirstError("hoursUntilTurn");
+    const nameError = getFirstError("name", errors);
+    const descriptionError = getFirstError("description", errors);
+    const sideEffectsError = getFirstError("sideEffects", errors);
+    const creatorError = getFirstError("creator", errors);
+    const mutationError = getFirstError("mutation", errors);
+    const magnitudeError = getFirstError("magnitude", errors);
+    const turnoverRateError = getFirstError("turnoverRate", errors);
+    const hoursUntilTurnError = getFirstError("hoursUntilTurn", errors);
 
     if (redirect) {
         return <Redirect to={redirect} />

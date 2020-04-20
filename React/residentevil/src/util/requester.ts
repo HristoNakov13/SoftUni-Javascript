@@ -2,7 +2,6 @@ function fetchData(URL: string, headers: RequestInit): Promise<any> {
     return fetch(URL, headers)
         .then(res => {
             if (!res.ok) {
-                console.log(res);
                 throw new Error(res.statusText);
             }
 

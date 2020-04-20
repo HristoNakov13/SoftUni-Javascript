@@ -11,6 +11,7 @@ import VirusDetails from "./components/VirusDetails/VirusDetails";
 import EditVirus from "./components/EditVirus/EditVirus";
 import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/viruses/edit/:id" exact component={EditVirus} />
               <Route path="/viruses/:id" component={VirusDetails} />
               <Route path="/register" exact component={Register} />
+              <Route path="/login" exact component={Login} />
             </Switch>
           </Jumbotron>
         </Layout>
