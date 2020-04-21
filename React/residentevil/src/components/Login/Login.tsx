@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import useForm from "../../shared/hooks/use-form";
 import validationSchema from "./login-validation-schema";
@@ -14,31 +14,25 @@ const initialState = {
 };
 
 const Login: React.FC = () => {
-    const [redirect, setRedirect] = useState("");
     const [serverError, setServerError] = useState("");
+    const history = useHistory();
 
     const onSubmit = (state: any) => {
         const credentials: Credentials = { ...state };
 
         userService.login(credentials)
-            .then((response) => {
-                console.log(response);
-                // setRedirect("/");
-
+            .then((res) => {
+                history.push("/");
             }).catch(err => {
-                console.log(err);
+                setServerError("Incorrect username or password");
             })
 
     };
 
-    const { state, submitHandler, changeHandler, errors } = useForm(initialState, validationSchema, onSubmit);
+    const { submitHandler, changeHandler, errors } = useForm(initialState, validationSchema, onSubmit);
 
     const usernameError = getFirstError("username", errors);
     const passwordError = getFirstError("password", errors);
-
-    if (redirect) {
-        return <Redirect to={redirect} />;
-    }
 
     return (
         <Fragment>
@@ -47,6 +41,7 @@ const Login: React.FC = () => {
                     <Form.Label>Username:</Form.Label>
                     <Form.Control onChange={changeHandler} type="text" name="username" placeholder="Enter username..." />
                     {usernameError && <div className="error">{usernameError}</div>}
+                    {serverError && <div className="error">{serverError}</div>}
                 </Form.Group>
 
                 <Form.Group controlId="password">

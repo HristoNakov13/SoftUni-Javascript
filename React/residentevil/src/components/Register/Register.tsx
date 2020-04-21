@@ -27,7 +27,7 @@ const Register: React.FC = () => {
             }).catch(console.error);
     };
 
-    const { state, errors, submitHandler, changeHandler } = useForm(initialState, validationSchema, onSubmit);
+    const { errors, submitHandler, changeHandler } = useForm(initialState, validationSchema, onSubmit);
 
     const usernameError = getFirstError("username", errors);
     const passwordError = getFirstError("password", errors);
