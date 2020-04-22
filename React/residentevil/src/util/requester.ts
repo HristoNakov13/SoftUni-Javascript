@@ -57,7 +57,7 @@ function del(endpoint: string, data: object | Array<any>) {
     return fetchData(URL, headers);
 }
 
-const ROOT_URL = " http://localhost:8080";
+const ROOT_URL = "http://localhost:8080";
 
 function buildURL(endpoint: string): string {
     return `${ROOT_URL}${endpoint}`;

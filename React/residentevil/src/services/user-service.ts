@@ -20,9 +20,15 @@ const userService = {
     },
 
     login: (credentials: Credentials): Promise<any> => {
-        return requester.post(API_ENDPOINTS.login, credentials);
+        return fetch(`http://localhost:8080` + API_ENDPOINTS.login, {
+            body: JSON.stringify(credentials),
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            credentials: 'include'
+        }).then(res => res.status === 200 ? res.json() : res);
     },
-
 }
 
 export default userService;

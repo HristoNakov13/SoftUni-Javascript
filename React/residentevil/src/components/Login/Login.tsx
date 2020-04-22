@@ -39,18 +39,18 @@ const Login: React.FC = () => {
             <Form>
                 <Form.Group controlId="username">
                     <Form.Label>Username:</Form.Label>
-                    <Form.Control onChange={changeHandler} type="text" name="username" placeholder="Enter username..." />
+                    <Form.Control onChange={changeHandler} type="text" name="username" tabIndex={1} autoFocus placeholder="Enter username..." />
                     {usernameError && <div className="error">{usernameError}</div>}
                     {serverError && <div className="error">{serverError}</div>}
                 </Form.Group>
 
                 <Form.Group controlId="password">
                     <Form.Label>Password:</Form.Label>
-                    <Form.Control onChange={changeHandler} type="password" name="password" placeholder="Password..." />
+                    <Form.Control onChange={changeHandler} type="password" name="password" tabIndex={2} placeholder="Password..." />
                     {passwordError && <div className="error">{passwordError}</div>}
                 </Form.Group>
 
-                <Button onClick={submitHandler} variant="primary" type="submit">Submit</Button>
+                <Button onClick={submitHandler} variant="primary" tabIndex={3} type="submit">Submit</Button>
             </Form>
         </Fragment>
     )
