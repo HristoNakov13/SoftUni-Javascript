@@ -12,28 +12,31 @@ import EditVirus from "./components/EditVirus/EditVirus";
 import Home from "./components/Home/Home";
 import Register from "./components/Register/Register";
 import Login from "./components/Login/Login";
+import UserContextProvider from "./contexts/user/UserContext";
 
 function App() {
-  return (
-    <Fragment>
-      <Router>
-        <Layout>
-          <Navigation />
-          <Jumbotron>
-            <Switch>
-              <Route path={"/"} exact component={Home}/>
-              <Route path="/viruses/all" exact component={AllViruses} />
-              <Route path="/viruses/add" exact component={AddVirus} />
-              <Route path="/viruses/edit/:id" exact component={EditVirus} />
-              <Route path="/viruses/:id" component={VirusDetails} />
-              <Route path="/register" exact component={Register} />
-              <Route path="/login" exact component={Login} />
-            </Switch>
-          </Jumbotron>
-        </Layout>
-      </Router>
-    </Fragment>
-  );
+    return (
+        <Fragment>
+            <UserContextProvider>
+                <Router>
+                    <Layout>
+                        <Navigation />
+                        <Jumbotron>
+                            <Switch>
+                                <Route path={"/"} exact component={Home} />
+                                <Route path="/viruses/all" exact component={AllViruses} />
+                                <Route path="/viruses/add" exact component={AddVirus} />
+                                <Route path="/viruses/edit/:id" exact component={EditVirus} />
+                                <Route path="/viruses/:id" component={VirusDetails} />
+                                <Route path="/register" exact component={Register} />
+                                <Route path="/login" exact component={Login} />
+                            </Switch>
+                        </Jumbotron>
+                    </Layout>
+                </Router>
+            </UserContextProvider>
+        </Fragment>
+    );
 }
 
 export default App;

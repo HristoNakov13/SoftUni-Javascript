@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useContext, useMemo } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
@@ -7,32 +7,35 @@ import validationSchema from "./login-validation-schema";
 import getFirstError from "../../util/get-field-first-error";
 import Credentials from "./credentials-interface";
 import userService from "../../services/user-service";
+import { UserContext } from "../../contexts/user/UserContext";
+import LoggedUser from "../../contexts/user/logged-user-interface";
 
-const initialState = {
+const initialState: Credentials = {
     username: "",
     password: ""
 };
 
+
 const Login: React.FC = () => {
     const [serverError, setServerError] = useState("");
+    const { setUser } = useContext(UserContext);
     const history = useHistory();
 
-    const onSubmit = (state: any) => {
-        const credentials: Credentials = { ...state };
-
+    const onSubmit = (credentials: Credentials) => {
         userService.login(credentials)
-            .then((res) => {
+            .then((userData: LoggedUser) => {
+                setUser(userData);
                 history.push("/");
-            }).catch(err => {
+            }).catch(() => {
                 setServerError("Incorrect username or password");
             })
-
     };
 
     const { submitHandler, changeHandler, errors } = useForm(initialState, validationSchema, onSubmit);
 
-    const usernameError = getFirstError("username", errors);
-    const passwordError = getFirstError("password", errors);
+
+    const usernameError = useMemo(() => getFirstError("username", errors), [errors]);
+    const passwordError = useMemo(() => getFirstError("password", errors), [errors]);
 
     return (
         <Fragment>

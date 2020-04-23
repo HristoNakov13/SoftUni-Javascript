@@ -6,6 +6,7 @@ import VirusForm from "../VirusForm/VirusForm";
 
 //TODO fix interface mash fuck up
 
+
 const EditVirus: React.FC = (props: any) => {
     const defaultState: any = {
         name: "",
@@ -18,7 +19,7 @@ const EditVirus: React.FC = (props: any) => {
         turnoverRate: 0,
         hoursUntilTurn: 0,
         magnitude: "",
-        capitals: [] 
+        capitals: []
     };
 
     const [initialState, setInitialState] = useState(defaultState);
