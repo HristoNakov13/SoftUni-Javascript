@@ -1,6 +1,6 @@
 interface LoggedUser {
-    username: string,
-    id: string
+    username: string | undefined,
+    id: string | undefined
 };
 
 export default LoggedUser;

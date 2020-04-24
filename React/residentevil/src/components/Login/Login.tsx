@@ -6,29 +6,25 @@ import useForm from "../../shared/hooks/use-form";
 import validationSchema from "./login-validation-schema";
 import getFirstError from "../../util/get-field-first-error";
 import Credentials from "./credentials-interface";
-import userService from "../../services/user-service";
 import { UserContext } from "../../contexts/user/UserContext";
-import LoggedUser from "../../contexts/user/logged-user-interface";
 
 const initialState: Credentials = {
     username: "",
     password: ""
 };
 
-
 const Login: React.FC = () => {
     const [serverError, setServerError] = useState("");
-    const { setUser } = useContext(UserContext);
+    const { login } = useContext(UserContext);
     const history = useHistory();
 
     const onSubmit = (credentials: Credentials) => {
-        userService.login(credentials)
-            .then((userData: LoggedUser) => {
-                setUser(userData);
+        login(credentials)
+            .then(() => {
                 history.push("/");
             }).catch(() => {
                 setServerError("Incorrect username or password");
-            })
+            });
     };
 
     const { submitHandler, changeHandler, errors } = useForm(initialState, validationSchema, onSubmit);

@@ -7,10 +7,7 @@ import Virus from "./Virus";
 
 
 const AllViruses: React.FC = () => {
-
     const [viruses, setViruses] = useState<any[]>([]);
-
-
 
     useEffect(() => {
         virusService.getAllViruses().then(res => {

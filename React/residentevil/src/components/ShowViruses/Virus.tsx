@@ -24,7 +24,7 @@ const Virus: React.FC<VirusProps> = ({ viruses }) => {
                 <td>{magnitude}</td>
                 <td>{releasedOn}</td>
                 <td>
-                    <Link to={`/viruses/${id}`}>
+                    <Link to={`/viruses/details/${id}`}>
                         <Button variant="primary">
                             Details
                         </Button>

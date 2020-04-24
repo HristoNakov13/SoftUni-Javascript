@@ -22,11 +22,11 @@ const useForm = (initialState: any, validationSchema: yup.ObjectSchema, onSubmit
             const value = target.type === "checkbox"
                 ? target.checked
                 : target.value;
-                
-                setState((prev: any) => ({
-                    ...prev,
-                    [name]: value
-                }));
+
+            setState((prev: any) => ({
+                ...prev,
+                [name]: value
+            }));
 
             id = setTimeout(() => {
                 //validation

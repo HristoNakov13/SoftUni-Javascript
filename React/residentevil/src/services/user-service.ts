@@ -8,6 +8,7 @@ const API_ENDPOINTS = {
     validateUsernameUnique: ROOT_ENDPOINT + "/validate",
     register: ROOT_ENDPOINT + "/register",
     login: ROOT_ENDPOINT + "/login",
+    auth: ROOT_ENDPOINT + "/auth",
 }
 
 const userService = {
@@ -20,15 +21,12 @@ const userService = {
     },
 
     login: (credentials: Credentials): Promise<any> => {
-        return fetch(`http://localhost:8080` + API_ENDPOINTS.login, {
-            body: JSON.stringify(credentials),
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            credentials: 'include'
-        }).then(res => res.status === 200 ? res.json() : res);
+        return requester.post(API_ENDPOINTS.login, credentials);
     },
+
+    auth: (): Promise<any> => {
+        return requester.get(API_ENDPOINTS.auth);
+    }
 }
 
 export default userService;

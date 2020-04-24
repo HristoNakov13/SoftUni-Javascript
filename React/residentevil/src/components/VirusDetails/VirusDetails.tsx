@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useParams } from "react-router-dom";
 
 import Capitals from "./Capitals";
 
@@ -10,16 +10,19 @@ import hasKey from "../../util/has-key";
 
 const VirusDetails: React.FC = (props: any) => {
     const [virus, setVirus] = useState<VirusDetailsInterface>();
+    const { id } = useParams();
 
     useEffect(() => {
-        const virusId = props.match.params.id;
+        if (id === undefined) {
+            return;
+        }
 
-        virusService.getVirusById(virusId)
+        virusService.getVirusById(id)
             .then((res: VirusDetailsInterface) => {
                 setVirus(res);
             })
             .catch(console.error);
-    }, [props.match.params.id]);
+    }, [id]);
 
     const [redirect, setRedirect] = useState("");
 

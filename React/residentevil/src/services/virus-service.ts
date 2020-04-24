@@ -17,8 +17,6 @@ const API_ENDPOINTS = {
     deleteVirus: ROOT_ENDPOINT
 };
 
-//should object interfaces be imported here?
-
 const virusService = {
     getAllViruses: (): Promise<any[]> => {
         return requester.get(API_ENDPOINTS.viruses);
